@@ -8,8 +8,109 @@
 }
 
 body {
-    background-color: $backgroud;
+    background-color: $background;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 16px;
-    color: #eee;
+    color: $text;
+}
+
+h2 {
+    font-weight: 100;
+}
+
+a {
+    text-decoration: none;
+    outline: unset;
+}
+
+li {
+    list-style: none;
+    outline: unset; 
+}
+
+code {
+    color: $primary;
+    font-weight: bolder;
+}
+
+.pl_2 {
+    padding-left: 2em;
+}
+
+.p_2 {
+    padding: 2em;
+}
+
+.p_1 {
+    padding: 1em;
+}
+
+.iconBtn {
+    outline: unset;
+    border: none;
+    padding: .6em;
+    background-color: transparent;
+    cursor: pointer;
+    transition: all .4s ease;
+    &:hover {
+        transform: scale(1.2);
+    }
+    &:active {
+        transform: scale(1);
+    }
+}
+
+.btnPrimary {
+    color: $primary;
+    border: none;
+    padding: .6em 1em;
+    cursor: pointer;
+    box-shadow: 0 0 2px #000;
+    border-radius: 3px;
+    transition: all .4s ease;
+    &:hover {
+        box-shadow: 0 0 5px #000;
+    }
+    &:active {
+        transform: scale(.9);
+    }
+}
+
+.btnSecondary {
+    border: none;
+    padding: .6em 1em;
+    cursor: pointer;
+    box-shadow: 0 0 2px #000;
+    border-radius: 3px;
+    transition: all .4s ease;
+    &:hover {
+        box-shadow: 0 0 5px #000;
+    }
+    &:active {
+        transform: scale(.9);
+    }
+}
+
+.smaller {
+    font-size: 12px !important;
+    @media (max-width: 599px) {
+        font-size: 10px;
+    }
+}
+
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding-top: 1em;
+
+    button:first-child {
+        margin-right: 1em;
+    }
+}
+
+
+.spaceBetween {
+    display: flex;
+    justify-content: space-between;
 }

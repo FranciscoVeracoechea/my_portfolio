@@ -1,0 +1,28 @@
+@import './global'; 
+
+.container {
+    padding: 2em;
+    
+    .socialNav {
+        @include flexCenter(row);
+
+        .item {
+            padding: 2em;
+
+            a {
+                font-size: 2.6em;
+                color: #eee;
+                transition: all .4s ease;
+            }
+            .instagram:hover {
+                color: #e1306c;
+            }
+            .github:hover {
+                color: #444;
+            }
+            .linkedin:hover {
+                color: #0077b5;
+            }
+        }
+    }
+}

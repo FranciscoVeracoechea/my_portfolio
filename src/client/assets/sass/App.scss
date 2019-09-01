@@ -4,10 +4,6 @@
     color: $primary;
 }
 
-.container {
-    padding: 1em;
-}
-
 .header {
     @include flexCenter;
     width: 100%;

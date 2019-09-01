@@ -1,0 +1,54 @@
+@import './global';
+
+.homeContainer {
+    @include backgroundImage('../img/bg2.jpg');
+    @include overlate(.4);
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+
+    .wrapper {
+        padding: 2em;
+        background-color: rgba(#000, .6);
+    }
+}
+
+.mainTitle {
+    font-size: 3em;
+}
+
+.title { 
+    font-size: 2em;
+}
+
+.code  {
+    font-size: 1.2em;
+}
+
+.mainSection {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 3.8em 0;
+
+    .titler {
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-self: flex-end;
+    }
+
+    .leftIcon { 
+        span {
+            font-size: 10em;
+            color: $primary;
+        }
+    }
+    .rightIcon {
+        span {
+            font-size: 10em;
+            color: $primary;
+        }
+    }
+}
