@@ -1,0 +1,16 @@
+@mixin flexCenter($direction: column) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin backgroundImage($url) {
+    background-image: url($url);
+    background-position: center;
+    background-size: cover;
+}
+
+@mixin shadow() {
+    box-shadow: 0 0 3px rgba(#000, .8);
+}
