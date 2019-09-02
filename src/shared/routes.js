@@ -9,8 +9,8 @@ import type {
 } from './co[nfigureStore';
 // Pages
 import About from '../client/pages/About';
-import Blog from '../client/pages/Blog';
 import Home from '../client/pages/Home';
+import Auth from '../client/pages/Auth';
 
 
 type Props = {};
@@ -41,9 +41,9 @@ const routes: Array<Route> = [
     path: '/about',
     component: About,
   }, {
-    path: '/blog',
-    component: Blog,
-  },
+    path: '/enter-the-matrix',
+    component: Auth,
+  }
 ];
 
 export default routes;

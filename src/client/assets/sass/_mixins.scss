@@ -11,6 +11,11 @@
     background-size: cover;
 }
 
+@mixin backgroundPattern($url) {
+    background-image: url($url);
+    background-repeat: repeat;
+}
+
 @mixin shadow() {
     box-shadow: 0 0 3px rgba(#000, .8);
 }

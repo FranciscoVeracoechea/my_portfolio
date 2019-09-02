@@ -36,7 +36,7 @@ const Home = () => {
           <section>
             <p className={styles.code}>
               <code>{'() => { '}</code>
-              <cite>"Before a software can be reusable, it must first be usable."</cite>
+              <cite>&quot;Before a software can be reusable, it must first be usable.&quot;</cite>
               <code>{' }'}</code>
             </p>
           </section>

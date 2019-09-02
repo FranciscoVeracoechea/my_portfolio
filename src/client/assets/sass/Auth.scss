@@ -1,0 +1,18 @@
+@import './global';
+
+.authWrapper {
+    @include backgroundPattern('../img/naturalwhite.png');
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+
+    .authHeader {
+        min-width: 50vw;
+        padding: 1em;
+    }
+
+    .formWrapper {
+        padding: 1em;
+    }
+}
