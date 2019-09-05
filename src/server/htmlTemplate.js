@@ -1,4 +1,5 @@
 import { Helmet } from 'react-helmet';
+import serialize from 'serialize-javascript';
 
 
 const helmet = Helmet.renderStatic();
@@ -28,8 +29,8 @@ export default ({
   <body ${helmet.bodyAttributes.toString()}>
     <div id="root">${markup}</div>
     <script>
-      window.__STATE__ = ${JSON.stringify(state)};
-      window.browserEnv = ${JSON.stringify(browserEnv)};
+      window.__STATE__ = ${serialize(state)};
+      window.browserEnv = ${serialize(browserEnv)};
     </script>
     <script src="/bundle.${hash}.js"></script>
   </body>

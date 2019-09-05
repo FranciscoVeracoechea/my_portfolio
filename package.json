@@ -123,6 +123,7 @@
     "redux-observable": "^1.1.0",
     "redux-thunk": "^2.3.0",
     "rxjs": "^6.5.2",
+    "serialize-javascript": "^2.1.0",
     "serve-favicon": "^2.5.0",
     "update-dotenv": "^1.1.1",
     "window-or-global": "^1.0.1",
