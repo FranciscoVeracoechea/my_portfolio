@@ -1,6 +1,23 @@
 import { Router } from 'express';
+import Maybe from 'folktale/maybe';
 import requireAuthentication from '../middlewares/requireAuthentication';
 import * as UserController from '../controllers/UserCotroller';
+
+
+const clearSession = req => (
+  req?.session?.user && req?.session?.isAuthenticated
+    ? Maybe.Just((r) => { r.session = null; })
+    : Maybe.Nothing()
+);
+
+const deletePreviuosSession = () => (req, res, next) => clearSession(req)
+  .matchWith({
+    Just: ({ value }) => {
+      value(req);
+      next();
+    },
+    Nothing: () => next(),
+  });
 
 
 export default () => {
@@ -16,8 +33,16 @@ export default () => {
 
   // Unprotected Routes
   const openRouter = Router();
-  openRouter.post('/register', UserController.validate('register'), UserController.register());
-  openRouter.post('/login', UserController.validate('login'), UserController.login());
+  openRouter.post(
+    '/register',
+    [deletePreviuosSession(), ...UserController.validate('register')],
+    UserController.register()
+  );
+  openRouter.post(
+    '/login',
+    [deletePreviuosSession(), ...UserController.validate('login')],
+    UserController.login()
+  );
 
   return [openRouter, protectedRouter];
 };

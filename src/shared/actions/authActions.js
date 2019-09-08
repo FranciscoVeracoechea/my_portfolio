@@ -1,5 +1,4 @@
 import root from 'window-or-global';
-import { iif } from '../utils/functional';
 
 
 export const actionTypes = {
@@ -14,6 +13,7 @@ export const actionTypes = {
   getToken: 'GET_TOKEN',
   logout: 'LOGOUT',
   clearAuth: 'CLEAR_AUTH',
+  clearErrors: 'AUTH_CLEAR_ERRORS',
 };
 
 // general auth actions  ---------------------------------
@@ -53,6 +53,10 @@ export const logout = () => {
   };
 };
 
+export const clearErrors = () => ({
+  type: actionTypes.clearErrors,
+});
+
 // register actions  -------------------------------------
 export const fetchRegisterRejected = ({ response }) => {
   root.localStorage.removeItem('token');
@@ -66,9 +70,9 @@ export const fetchRegisterCancelled = () => ({
   type: actionTypes.fetchRegisterCancelled,
 });
 
-export const fetchRegister = ({ email, username, password }) => ({
+export const fetchRegister = payload => ({
   type: actionTypes.fetchRegister,
-  payload: { email, username, password },
+  payload,
 });
 
 // login actions ----------------------------------------
@@ -79,5 +83,5 @@ export const loginRejected = ({ response }) => ({
 
 export const fetchLogin = ({ username, email, password }) => ({
   type: actionTypes.fetchLogin,
-  payload: iif(username)({ username, password })({ email, password }),
+  payload: username ? { username, password } : { email, password },
 });

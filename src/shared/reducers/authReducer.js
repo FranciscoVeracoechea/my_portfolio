@@ -45,6 +45,11 @@ export default (state = initialState, { type, payload }) => {
         loading: true,
       };
 
+    case actionTypes.clearErrors:
+      return {
+        ...state,
+        errors: null,
+      };
 
     case actionTypes.fetchRegisterRejected:
       return getErrors(initialState)(payload);

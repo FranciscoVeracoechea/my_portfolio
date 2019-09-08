@@ -8,6 +8,8 @@ export default makeStyles(() => ({
     alignItems: 'center',
     flexDirection: 'column',
     minHeight: '100vh',
+    paddingTop: '6em',
+    paddingBottom: '4em',
   },
   group: {
     display: 'block',

@@ -30,7 +30,7 @@ app.use('/', express.static(path.join(__dirname, '..', '..', 'public')));
 app.use('/static', express.static(path.join(__dirname, '..', '..', 'static')));
 app.use(favicon(path.join(__dirname, '..', '..', 'static', 'favicon.ico')));
 app.use(cors());
-app.use(helmet());
+// app.use(helmet());
 app.use(cookieSession({
   name: 'FV_portfolio',
   keys: [process.env.SECRET],

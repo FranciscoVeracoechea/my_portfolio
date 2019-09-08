@@ -11,6 +11,7 @@ import type {
 import About from '../client/pages/About';
 import Home from '../client/pages/Home';
 import Auth from '../client/pages/Auth';
+import Dashboard from '../client/pages/Dashboard';
 
 
 type Props = {};
@@ -30,6 +31,7 @@ export type Route = {
   exact?: boolean,
   sensitive?: boolean,
   strict?: boolean,
+  protected?: boolean,
 };
 
 const routes: Array<Route> = [
@@ -43,7 +45,11 @@ const routes: Array<Route> = [
   }, {
     path: '/enter-the-matrix',
     component: Auth,
-  }
+  }, {
+    path: '/dashboard',
+    component: Dashboard,
+    protected: true,
+  },
 ];
 
 export default routes;

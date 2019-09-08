@@ -13,7 +13,7 @@ import logo from '../../assets/img/logo_blue.svg';
 import useStyles from './useStyles';
 
 
-export default function PrimarySearchAppBar() {
+const AppNavigationBar = ({ push }) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -111,6 +111,7 @@ export default function PrimarySearchAppBar() {
                   className={classes.menuButton}
                   color="inherit"
                   aria-label="open drawer"
+                  onClick={() => push('/')}
                 >
                   <Avatar src={logo} />
                 </IconButton>
@@ -160,4 +161,6 @@ export default function PrimarySearchAppBar() {
     }
     </HideOnScroll>
   );
-}
+};
+
+export default AppNavigationBar;

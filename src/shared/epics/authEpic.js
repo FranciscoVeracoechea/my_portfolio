@@ -5,6 +5,7 @@ import {
   mergeMap, map, filter, catchError, tap,
 } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { push } from 'connected-react-router';
 // request helper
 import request from '../utils/Request';
 // actions
@@ -35,7 +36,10 @@ export const fetchRegisterEpic = action$ => action$.pipe(
     method: 'POST',
     body: { ...action.payload, grantType },
   }).pipe(
-    map(({ response }) => saveData(response)),
+    mergeMap(({ response }) => of(
+      saveData(response),
+      push('/dashboard')
+    )),
     catchError(error => of(fetchRegisterRejected(error))),
   ))
 );
@@ -47,7 +51,10 @@ export const fetchLoginEpic = action$ => action$.pipe(
     method: 'POST',
     body: { ...action.payload, grantType },
   }).pipe(
-    map(({ response }) => saveData(response)),
+    mergeMap(({ response }) => of(
+      saveData(response),
+      push('/dashboard')
+    )),
     catchError(error => of(loginRejected(error)))
   ))
 );
@@ -58,7 +65,7 @@ export const fetchLogoutEpic = action$ => action$.pipe(
     url: '/api/user/logout',
     method: 'POST',
     headers: {
-      grantType: 'COOKIE',
+      grantType,
     },
   }).pipe(
     tap(console.info),

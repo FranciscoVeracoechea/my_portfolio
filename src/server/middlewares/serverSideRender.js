@@ -13,7 +13,7 @@ import {
 } from 'rxjs/operators';
 // actions
 import { setUADevice } from '../../shared/actions/deviceActions';
-// import { saveUserFromServer } from '../../shared/actions/authActions';
+import { saveUserFromServer } from '../../shared/actions/authActions';
 // Store
 import configureStore from '../../shared/configureStore';
 import Root from '../../shared/RootComponent';
@@ -57,11 +57,11 @@ dispatch$.pipe(
 
 ssr$.pipe(
   tap(({ store, req }) => dispatch$.next({ store, req, action: setUADevice })),
-  // tap(({ store, req }) => (
-  //   req.session && req.session.isAuthenticated && req.session.user
-  //     ? dispatch$.next({ store, req, action: saveUserFromServer })
-  //     : null
-  // )),
+  tap(({ store, req }) => (
+    req.session && req.session.isAuthenticated && req.session.user
+      ? dispatch$.next({ store, req, action: saveUserFromServer })
+      : null
+  )),
   mergeMap(ssr => routesStream(ssr)),
   // tap(console.log),
   withLatestFrom(serverData$),

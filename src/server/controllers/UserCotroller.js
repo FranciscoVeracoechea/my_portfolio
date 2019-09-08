@@ -13,7 +13,7 @@ import { switchCase, newError } from '../../shared/utils/functional';
 
 
 const {
-  SECRET, APP_URL, TOKEN_LIFE, APP_TITLE,
+  SECRET, APP_URL, TOKEN_LIFE, APP_TITLE, AUTH_TOKEN,
 } = process.env;
 const TOKEN = 'TOKEN';
 const COOKIE = 'COOKIE';
@@ -38,7 +38,13 @@ export const validate = (methodName) => {
     ],
     register: [
       body('email').isEmail().custom(checkEmail),
-      body('password').isLength({ min: 5, max: 78 }),
+      body('password').trim().isLength({ min: 5, max: 78 }),
+      body('fullname').trim().isLength({ min: 5, max: 78 }),
+      body('auth_token').trim().custom(value => (
+        value === AUTH_TOKEN
+          ? Promise.resolve()
+          : Promise.reject(new Error('Invalid Authentication Token'))
+      )),
       body('username').not().isEmpty().trim()
         .isLength({ min: 4, max: 28 })
         .custom(checkUsername),
@@ -46,11 +52,7 @@ export const validate = (methodName) => {
     ],
     login: [
       sanitizeBody('password').customSanitizer(value => String(value)),
-      oneOf([
-        body('email').isEmail(),
-        body('username').not().isEmpty().trim()
-          .isLength({ min: 4, max: 28 }),
-      ]),
+      body('email').isEmail(),
       body('password').isLength({ min: 5, max: 78 }),
       body('grantType').isIn([TOKEN, COOKIE]),
     ],
@@ -109,12 +111,13 @@ export const userInfo = () => (req, res) => {
 
 export const register = () => (req, res, next) => {
   const {
-    email, username, password, grantType,
+    email, username, password, grantType, fullname,
   } = req.body;
   User.create({
     email,
     username,
     password,
+    fullname,
   }).then(({ _doc: data }) => {
     if (grantType === TOKEN) {
       jwt.sign(
@@ -148,9 +151,9 @@ export const register = () => (req, res, next) => {
 
 export const login = () => (req, res, next) => {
   const {
-    email, password, username, grantType,
+    email, password, grantType,
   } = req.body;
-  User.findOne(emailOrUsername(email, username))
+  User.findOne({ email })
     .then((user) => {
       if (!user) return next(newError('Account Not Found')({ status: 404 }));
       if (user.checkPassword(password)) {
