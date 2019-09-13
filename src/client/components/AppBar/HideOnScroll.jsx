@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 const HideOnScroll = ({ children }) => {
   const defaultStyles = {
     transition: '.4s top ease',
+    zIndex: 100,
   };
   const [lastScroll, setLastScroll] = useState(0);
   const [styles, setStyles] = useState(defaultStyles);

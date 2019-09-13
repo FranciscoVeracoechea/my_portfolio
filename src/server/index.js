@@ -2,7 +2,6 @@
 import express from 'express';
 import path from 'path';
 import dotenv from 'dotenv';
-import helmet from 'helmet';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import favicon from 'serve-favicon';
@@ -15,6 +14,7 @@ import development from './configs/development';
 import production from './configs/production';
 // middlewares
 import deviceDetection from './middlewares/deviceDetection';
+import helmet from './middlewares/helpmet';
 // API router
 import ApiRouter from './API';
 
@@ -30,7 +30,7 @@ app.use('/', express.static(path.join(__dirname, '..', '..', 'public')));
 app.use('/static', express.static(path.join(__dirname, '..', '..', 'static')));
 app.use(favicon(path.join(__dirname, '..', '..', 'static', 'favicon.ico')));
 app.use(cors());
-// app.use(helmet());
+helmet(app);
 app.use(cookieSession({
   name: 'FV_portfolio',
   keys: [process.env.SECRET],

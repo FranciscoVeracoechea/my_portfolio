@@ -1,10 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 // import bcrypt from 'bcrypt-nodejs';
 import crypto from 'crypto';
-import { ImageSchema } from './Image';
 
-
-const { APP_URL } = process.env;
 
 const UserSchema = new Schema({
   email: {
@@ -26,18 +23,8 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
-  createdAt: { type: Date, default: Date.now },
-  description: {
-    type: String,
-  },
-  fullname: String,
-  images: {
-    type: [ImageSchema],
-    default: [{
-      kind: 'profile',
-      url: `${APP_URL}/static/profile.svg`,
-    }],
-  },
+}, {
+  timestamps: true,
 });
 
 UserSchema.methods.encryptPassword = function encryptPassword(password) {

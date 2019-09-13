@@ -6,7 +6,8 @@ import { goBack, push } from 'connected-react-router';
 import MainNav from './AppBar';
 
 
-const mapStateToProps = () => ({
+const mapStateToProps = ({ auth }) => ({
+  user: auth.user,
 });
 
 const mapDispatchToProps = {

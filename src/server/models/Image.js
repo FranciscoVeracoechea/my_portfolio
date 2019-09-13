@@ -7,6 +7,8 @@ export const ImageSchema = new Schema({
     enum: ['thumbnail', 'detail', 'profile'],
   },
   url: { type: String },
+}, {
+  timestamps: true,
 });
 
 export const Image = mongoose.model('Image', ImageSchema);
