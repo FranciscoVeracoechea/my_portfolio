@@ -1,94 +1,30 @@
 // dependencies
-import {
-  body, oneOf, param, sanitizeBody,
-} from 'express-validator';
 import jwt from 'jsonwebtoken';
 // Models
 import User from '../models/User';
-// middlewares
-import validationResult from '../middlewares/validationResult';
 // utils
 import Box from '../../shared/utils/Box';
-import { switchCase, newError } from '../../shared/utils/functional';
+import { newError } from '../../shared/utils/functional';
 
 
 const {
-  SECRET, APP_URL, TOKEN_LIFE, APP_TITLE, AUTH_TOKEN,
+  SECRET, APP_URL, TOKEN_LIFE, APP_TITLE,
 } = process.env;
 const TOKEN = 'TOKEN';
 const COOKIE = 'COOKIE';
 const jwtOptions = { expiresIn: TOKEN_LIFE, audience: APP_URL, issuer: APP_TITLE };
 
-const checkUsername = (username, { req }) => User.findOne({ username }).then((user) => {
-  if (username === req?.session?.user?.username) return Promise.resolve();
-  if (user) return Promise.reject(new Error('Username already in use'));
-});
-
-const checkEmail = (email, { req }) => User.findOne({ email }).then((user) => {
-  if (email === req?.session?.user?.email) return Promise.resolve();
-  if (user) return Promise.reject(new Error('E-mail already in use'));
-});
-
-// validations
-export const validate = (methodName) => {
-  const validations = switchCase({
-    show: [
-      param('username').not().isEmpty().trim()
-        .isLength({ min: 4, max: 28 }),
-    ],
-    register: [
-      body('email').isEmail().custom(checkEmail),
-      body('password').trim().isLength({ min: 5, max: 78 }),
-      body('fullname').trim().isLength({ min: 5, max: 78 }),
-      body('auth_token').trim().custom(value => (
-        value === AUTH_TOKEN
-          ? Promise.resolve()
-          : Promise.reject(new Error('Invalid Authentication Token'))
-      )),
-      body('username').not().isEmpty().trim()
-        .isLength({ min: 4, max: 28 })
-        .custom(checkUsername),
-      body('grantType').isIn([TOKEN, COOKIE]),
-    ],
-    login: [
-      sanitizeBody('password').customSanitizer(value => String(value)),
-      body('email').isEmail(),
-      body('password').isLength({ min: 5, max: 78 }),
-      body('grantType').isIn([TOKEN, COOKIE]),
-    ],
-    update: [
-      param('id').isMongoId(),
-      body('username').isLength({ min: 4, max: 28 })
-        .custom(checkUsername),
-      body('email').isEmail().custom(checkEmail),
-      body('description').isLength({ min: 4, max: 480 })
-        .trim().escape()
-        .optional({ checkFalsy: true })
-        .withMessage('must have a size between 4 and 480 chars'),
-      body('fullname').isLength({ min: 4, max: 48 })
-        .trim().escape()
-        .optional({ checkFalsy: true })
-        .withMessage('must have a size between 4 and 48 chars'),
-    ],
-  })(false)(methodName);
-  return validations ? [...validations, validationResult()] : [];
-};
 // helper methods
-const emailOrUsername = (email, username) => {
-  const identity = email ? 'email' : 'username';
-  return { [identity]: identity === 'email' ? email : username };
-};
-const getSafeData = ({ salt, password, ...data }) => data;
+const getSafeData = ({ salt: _s, password: _p, ...data }) => data;
+
 
 // response methods
-export const index = () => (req, res, next) => {
-  return User.find({}, '-salt -password')
-    .then(data => res.status(200).json({
-      message: 'Sucessfull Request',
-      data,
-    }))
-    .catch(next);
-};
+export const index = () => (req, res, next) => User.find({}, '-salt -password')
+  .then(data => res.status(200).json({
+    message: 'Sucessfull Request',
+    data,
+  }))
+  .catch(next);
 
 export const show = () => (req, res, next) => User.findOne(
   { username: req.params.username },
@@ -101,13 +37,11 @@ export const show = () => (req, res, next) => User.findOne(
   .catch(next);
 
 // response methods
-export const userInfo = () => (req, res) => {
-  return res.status(200)
-    .json({
-      message: 'Sucessfull Request',
-      data: { user: getSafeData(req?.user?._doc || req.session.user) },
-    });
-};
+export const userInfo = () => (req, res) => res.status(200)
+  .json({
+    message: 'Sucessfull Request',
+    data: { user: getSafeData(req?.user?._doc || req.session.user) },
+  });
 
 export const register = () => (req, res, next) => {
   const {

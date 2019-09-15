@@ -60,6 +60,8 @@ export const mapToNumber = object => Object.entries(object).reduce(
 
 export const arrayToObject = (acc, current) => ({ ...acc, [current[0]]: numberParser(current[1]) });
 
+export const objectFromEntries = array => array.reduce(arrayToObject, {});
+
 // map form inputs with name and values to object
 export const serialezeForm = formElement => [...formElement]
   .filter(element => (element.value && element.name))

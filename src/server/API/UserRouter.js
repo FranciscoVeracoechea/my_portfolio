@@ -1,23 +1,8 @@
 import { Router } from 'express';
-import Maybe from 'folktale/maybe';
 import requireAuthentication from '../middlewares/requireAuthentication';
+import UserValidatior from '../Validations/UserValidatior';
 import * as UserController from '../controllers/UserCotroller';
-
-
-const clearSession = req => (
-  req?.session?.user && req?.session?.isAuthenticated
-    ? Maybe.Just((r) => { r.session = null; })
-    : Maybe.Nothing()
-);
-
-const deletePreviuosSession = () => (req, res, next) => clearSession(req)
-  .matchWith({
-    Just: ({ value }) => {
-      value(req);
-      next();
-    },
-    Nothing: () => next(),
-  });
+import deletePreviuosSession from '../middlewares/deletePreviuosSession';
 
 
 export default () => {
@@ -27,20 +12,21 @@ export default () => {
 
   protectedRouter.get('/', UserController.index());
   protectedRouter.get('/userInfo', UserController.userInfo());
-  protectedRouter.get('/show/:username', UserController.validate('show'), UserController.show());
+  protectedRouter.get('/show/:username', UserValidatior.show, UserController.show());
   protectedRouter.post('/logout', UserController.logout());
-  protectedRouter.put('/:id', UserController.validate('update'), UserController.update());
-
+  protectedRouter.put('/:id', UserValidatior.update, UserController.update());
   // Unprotected Routes
   const openRouter = Router();
   openRouter.post(
     '/register',
-    [deletePreviuosSession(), ...UserController.validate('register')],
+    deletePreviuosSession(),
+    UserValidatior.register,
     UserController.register()
   );
   openRouter.post(
     '/login',
-    [deletePreviuosSession(), ...UserController.validate('login')],
+    deletePreviuosSession(),
+    UserValidatior.login,
     UserController.login()
   );
 

@@ -35,7 +35,7 @@ const Dashboard = ({ location, match: { url } }) => {
           <List>
             {sections.map(({ text, Icon, route }) => (
               <li key={text}>
-                <ListItem button component={Link} to={route} selected={route === url}>
+                <ListItem divider button component={Link} to={route} selected={route === url}>
                   <ListItemIcon>
                     <Icon />
                   </ListItemIcon>

@@ -1,6 +1,10 @@
 import mongoose, { Schema } from 'mongoose';
 
 
+export const categories = [
+  'about_me', 'contact', 'interest', 'objective', 'technical_description',
+];
+
 const DataSchema = new Schema({
   key: {
     type: String,
@@ -18,9 +22,7 @@ const DataSchema = new Schema({
   },
   category: {
     type: String,
-    enum: [
-      'about_me', 'contact', 'interest', 'objective', 'technical_description',
-    ],
+    enum: categories,
   },
 }, {
   timestamps: true,
