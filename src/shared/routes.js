@@ -46,7 +46,7 @@ const routes: Array<Route> = [
     path: '/enter-the-matrix',
     component: Auth,
   }, {
-    path: '/dashboard',
+    path: '/dashboard/:section?',
     component: Dashboard,
     protected: true,
   },

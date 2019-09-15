@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  Avatar, IconButton, AppBar, Toolbar, MenuItem, Menu, Typography,
+  Avatar, IconButton, AppBar, Toolbar, Typography,
   Tooltip,
 } from '@material-ui/core';
 // component
