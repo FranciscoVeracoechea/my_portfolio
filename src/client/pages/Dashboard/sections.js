@@ -13,7 +13,7 @@ import Interests from '../../components/Interests';
 import Technologies from '../../components/Technologies';
 
 
-const setIcon = (icon = 'address-card') => () => <FontAwesomeIcon icon={icon} />;
+const setIcon = icon => () => <FontAwesomeIcon icon={icon} />;
 
 export default [
   {

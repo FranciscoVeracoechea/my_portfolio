@@ -40,7 +40,7 @@ const routes: Array<Route> = [
     component: Home,
     exact: true,
   }, {
-    path: '/about',
+    path: '/about-me',
     component: About,
   }, {
     path: '/enter-the-matrix',

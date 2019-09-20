@@ -22,6 +22,13 @@ const theme = createMuiTheme({
       'sans-serif',
     ].join(','),
   },
+  overrides: {
+    MuiTooltip: {
+      tooltip: {
+        fontSize: '1rem',
+      },
+    },
+  },
 });
 
 export default responsiveFontSizes(theme);

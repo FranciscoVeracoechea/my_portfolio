@@ -1,8 +1,10 @@
 import { Helmet } from 'react-helmet';
 import serialize from 'serialize-javascript';
+import { dom } from '@fortawesome/fontawesome-svg-core';
 
 
 const helmet = Helmet.renderStatic();
+const minifyCss = css => css.replace(/\n/g, '').replace(/\s\s+/g, ' ');
 
 export default ({
   hash,
@@ -20,7 +22,8 @@ export default ({
     ${helmet.title.toString()}
     ${helmet.meta.toString()}
     ${helmet.link.toString()}
-    <style id="jss-server-side" type="text/css">${css}</style>
+    <style id="jss-server-side" type="text/css">${minifyCss(css)}</style>
+    <style type="text/css">${minifyCss(dom.css())}</style>
     <link rel="icon" href="/static/favicon.ico?hash=${hash}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <link rel="stylesheet" type="text/css" href="/styles.${hash}.css"/>
@@ -32,6 +35,6 @@ export default ({
       window.__STATE__ = ${serialize(state)};
       window.browserEnv = ${serialize(browserEnv)};
     </script>
-    <script src="/bundle.${hash}.js"></script>
+    <script src="/bundle.${hash}.js" defer></script>
   </body>
 </html>`;

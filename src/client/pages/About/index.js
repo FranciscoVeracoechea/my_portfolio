@@ -4,7 +4,9 @@ import { goBack } from 'connected-react-router';
 import About from './About';
 
 
-const mapStateToProps = null;
+const mapStateToProps = ({ data }) => ({
+  data,
+});
 
 const mapDispatchToProps = {
   goBack,

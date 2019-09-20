@@ -2,7 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 
 
 export const categories = [
-  'about_me', 'contact', 'interest', 'objective', 'technical_description',
+  'about_me', 'contact', 'objective', 'technical_description',
 ];
 
 const DataSchema = new Schema({

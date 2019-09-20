@@ -1,0 +1,10 @@
+@import './global';
+
+.container {
+    @include backgroundImage('../img/b_about.jpg');
+    @include overlate(.4);
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+}

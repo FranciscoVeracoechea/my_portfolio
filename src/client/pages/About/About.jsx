@@ -1,47 +1,28 @@
-// @flow
-import React, { Component } from 'react';
+import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { autobind } from 'core-decorators';
+import {
+  Container,
+} from '@material-ui/core';
 // Components
 import Page from '../../components/Wrappers/Page';
 // assets
-import styles from '../../assets/sass/App.scss';
+import styles from '../../assets/sass/AboutMe.scss';
+import useStyles from './useStyles';
 
 
-type Props = {
-  goBack(): void,
+const About = () => {
+  const classes = useStyles();
+
+  return (
+    <Page title="About me">
+      <div className={styles.container}>
+        <Container fixed className={classes.container}>
+          <h3>About me</h3>
+        </Container>
+      </div>
+    </Page>
+  );
 };
-
-class About extends Component<Props> {
-  @autobind
-  goTo() {
-    const { goBack } = this.props;
-    goBack();
-  }
-
-  render() {
-    return (
-      <Page title="About">
-        <div className={styles.container}>
-          <section className={styles.sectionHeader}>
-            <button type="button" onClick={this.goTo} title="go back">
-              <FontAwesomeIcon icon="chevron-left" />
-            </button>
-            <h2>
-              <FontAwesomeIcon icon="info-circle" />
-              {' About'}
-            </h2>
-          </section>
-          <article>
-            <p>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. At repellendus nostrum et, excepturi adipisci ullam animi sequi repudiandae ipsa soluta?
-            </p>
-          </article>
-        </div>
-      </Page>
-    );
-  }
-}
 
 
 export default About;

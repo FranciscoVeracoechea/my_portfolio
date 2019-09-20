@@ -5,6 +5,7 @@ import {
   Avatar, IconButton, AppBar, Toolbar, Typography,
   Tooltip,
 } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 // component
 import HideOnScroll from './HideOnScroll';
 // assets
@@ -12,7 +13,7 @@ import logo from '../../assets/img/logo_blue.svg';
 import useStyles from './useStyles';
 
 
-const AppNavigationBar = ({ push, user }) => {
+const AppNavigationBar = ({ user }) => {
   const classes = useStyles();
 
   return (
@@ -31,7 +32,8 @@ const AppNavigationBar = ({ push, user }) => {
                   className={classes.menuButton}
                   color="inherit"
                   aria-label="open drawer"
-                  onClick={() => push('/')}
+                  to="/"
+                  component={Link}
                 >
                   <Avatar src={logo} />
                 </IconButton>
@@ -41,8 +43,13 @@ const AppNavigationBar = ({ push, user }) => {
                 <div className={classes.grow} />
                 <div className={classes.sectionDesktop}>
                   <Tooltip className={classes.tip} title="About Me">
-                    <IconButton aria-label="about me" color="inherit">
-                      <FontAwesomeIcon icon="user-ninja" size="2x" />
+                    <IconButton
+                      aria-label="about me"
+                      color="inherit"
+                      to="/about-me"
+                      component={Link}
+                    >
+                      <FontAwesomeIcon icon="drum" size="2x" />
                     </IconButton>
                   </Tooltip>
                   <Tooltip title="Repositories">
@@ -64,8 +71,9 @@ const AppNavigationBar = ({ push, user }) => {
                         <Tooltip className={classes.tip} title="Dashboard">
                           <IconButton
                             aria-label="go tpo dashboard"
-                            onClick={() => push('/dashboard')}
                             color="inherit"
+                            to="/dashboard"
+                            component={Link}
                           >
                             <DashboardIcon />
                           </IconButton>
