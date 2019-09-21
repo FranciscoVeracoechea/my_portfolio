@@ -12,7 +12,7 @@ import {
 } from '../actions/dataActions';
 
 
-export const fetchDataEpic = action$ => action$.pipe(
+const fetchDataEpic = action$ => action$.pipe(
   ofType(actionTypes.fetchData),
   mergeMap(_ => request({
     url: '/api/data',
@@ -25,15 +25,4 @@ export const fetchDataEpic = action$ => action$.pipe(
     ))
   ))
 );
-
-// export const createDataEpic = action$ => action$.pipe(
-//   ofType(actionTypes.fetchData),
-//   mergeMap(action => request({
-//     url: '/api/data',
-//     method: 'POST',
-//     body: action.payload,
-//   }).pipe(
-//     map(({ response }) => fetchDataSuccess(response)),
-//     catchError(error => of(fetchRejected(error))),
-//   )),
-// );
+export default fetchDataEpic;

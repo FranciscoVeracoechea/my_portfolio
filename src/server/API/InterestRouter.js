@@ -1,0 +1,21 @@
+import { Router } from 'express';
+import requireAuthentication from '../middlewares/requireAuthentication';
+import * as InterestController from '../controllers/InterestController';
+import InterestValidations from '../Validations/InterestValidations';
+
+
+export default () => {
+  // Protected Routes
+  const protectedRouter = Router();
+  protectedRouter.use(requireAuthentication());
+  protectedRouter.post('/', InterestValidations.create, InterestController.create());
+  protectedRouter.put('/:id', InterestValidations.update, InterestController.update());
+  protectedRouter.delete('/:id', InterestValidations.destroy, InterestController.destroy());
+
+  // Unprotected Routes
+  const openRouter = Router();
+  openRouter.get('/', InterestController.index());
+  openRouter.get('/:id', InterestValidations.show, InterestController.show());
+
+  return [protectedRouter, openRouter];
+};

@@ -77,20 +77,17 @@ export const updateData = ({
 });
 
 // delete
-export const deleteData = (id, index) => {
-  console.log(id, index);
-  return {
-    type: actionTypes.deleteData,
-    payload: {
-      promise: request({
-        url: `/api/data/${id}`,
-        method: 'DELETE',
-      }).pipe(
-        map(({ response }) => response)
-      ).toPromise(),
-      data: {
-        index,
-      },
+export const deleteData = (id, index) => ({
+  type: actionTypes.deleteData,
+  payload: {
+    promise: request({
+      url: `/api/data/${id}`,
+      method: 'DELETE',
+    }).pipe(
+      map(({ response }) => response)
+    ).toPromise(),
+    data: {
+      index,
     },
-  };
-};
+  },
+});

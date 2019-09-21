@@ -2,10 +2,12 @@
 import { combineEpics } from 'redux-observable';
 // epics
 import * as authEpic from './authEpic';
-import * as dataEpic from './dataEpic';
+import dataEpic from './dataEpic';
+import interestEpic from './interestEpic';
 
 
 export default combineEpics(
   ...Object.values(authEpic),
-  ...Object.values(dataEpic),
+  dataEpic,
+  interestEpic
 );

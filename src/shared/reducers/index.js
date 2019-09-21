@@ -5,6 +5,7 @@ import { connectRouter } from 'connected-react-router';
 import data from './dataReducer';
 import device from './deviceReducer';
 import auth from './authReducer';
+import interest from './interestReducer';
 
 
 export default history => combineReducers({
@@ -12,4 +13,5 @@ export default history => combineReducers({
   device,
   auth,
   data,
+  interest,
 });

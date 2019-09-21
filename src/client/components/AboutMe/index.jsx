@@ -15,12 +15,10 @@ const AboutMe = ({
   deleteData,
 }) => {
   useEffect(() => {
-    if (isFirstRender(data)) {
-      fetchData();
-    }
-  }, [data, fetchData]);
+    if (isFirstRender(data)) fetchData();
+  }, []);
 
-  if (loading) return <Loader size="6em" variant="determinate" />;
+  if (loading) return <Loader size="6em" />;
 
   return (
     <div>
