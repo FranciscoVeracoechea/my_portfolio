@@ -20,6 +20,7 @@ const DataSchema = new Schema({
     type: Map,
     of: String,
   },
+  faIcon: String,
   category: {
     type: String,
     enum: categories,

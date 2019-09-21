@@ -4,7 +4,7 @@ import humanize from '../utils/humanize';
 
 
 const initialState = {
-  loading: false,
+  loading: true,
   error: null,
   data: [],
 };

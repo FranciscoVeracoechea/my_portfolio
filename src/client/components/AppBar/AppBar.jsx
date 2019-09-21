@@ -35,7 +35,7 @@ const AppNavigationBar = ({ user }) => {
                   to="/"
                   component={Link}
                 >
-                  <Avatar src={logo} />
+                  <Avatar src={logo} alt="Francisco Veracoechea" />
                 </IconButton>
                 <Typography className={classes.title} variant="h6" noWrap>
                   Francisco Veracoechea

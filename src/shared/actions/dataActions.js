@@ -6,21 +6,25 @@ import request from '../utils/Request';
 
 
 export const actionTypes = {
-  fetchData: 'FETCH_DATA',
-  fetchRejected: 'FETCH_DATA_REJECTED',
-  fetchDataSuccess: 'FETCH_DATA_SUCCESS',
-  fetchDataCanceled: 'FETCH_DATA_CANCELED',
+  // create
   createData: 'CREATE_DATA',
   createDataPending: 'CREATE_DATA/PENDING',
   createSuccess: 'CREATE_DATA/FULFILLED',
   createRejected: 'CREATE_DATA/REJECTED',
+  // read
+  fetchData: 'FETCH_DATA',
+  fetchRejected: 'FETCH_DATA_REJECTED',
+  fetchDataSuccess: 'FETCH_DATA_SUCCESS',
+  fetchDataCanceled: 'FETCH_DATA_CANCELED',
+  // update
   updateData: 'UPDATE_DATA',
   updateDataPending: 'UPDATE_DATA/PENDING',
-  updateDataSuccess: 'UPDATE_DATA/SUCCESS',
+  updateDataSuccess: 'UPDATE_DATA/FULFILLED',
   updateDataRejected: 'UPDATE_DATA/REJECTED',
+  // delete
   deleteData: 'DELETE_DATA',
   deleteDataPending: 'DELETE_DATA/PENDING',
-  deleteDataSuccess: 'DELETE_DATA/SUCCESS',
+  deleteDataSuccess: 'DELETE_DATA/FULFILLED',
   deleteDataRejected: 'DELETE_DATA/REJECTED',
 };
 

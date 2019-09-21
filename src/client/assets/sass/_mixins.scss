@@ -9,6 +9,7 @@
     background-image: url($url);
     background-position: center;
     background-size: cover;
+    overflow-y: auto;
 }
 
 @mixin backgroundPattern($url) {

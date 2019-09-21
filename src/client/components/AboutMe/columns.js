@@ -12,6 +12,10 @@ export default [
     },
   },
   {
+    title: 'Icon',
+    field: 'faIcon',
+  },
+  {
     title: 'Created At',
     field: 'createdAt',
     editable: 'never',

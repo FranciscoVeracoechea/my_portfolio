@@ -8,6 +8,7 @@ export default makeStyles(theme => ({
     alignItems: 'center',
     flexDirection: 'column',
     minHeight: '100vh',
+    paddingTop: '6em',
   },
   titler: {
     [theme.breakpoints.up('md')]: {

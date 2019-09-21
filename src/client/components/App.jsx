@@ -4,7 +4,8 @@ import React from 'react';
 import { library, config } from '@fortawesome/fontawesome-svg-core';
 import {
   faCodeBranch, faUserNinja, faAddressCard, faPhone,
-  faStar, faBriefcase, faDrum,
+  faStar, faBriefcase, faDrum, faBirthdayCake, faCalendarAlt,
+  faMale, faGlobeAmericas, faUser, faMapMarkerAlt, faEnvelope,
 } from '@fortawesome/free-solid-svg-icons';
 // import { far } from '@fortawesome/free-regular-svg-icons';
 import {
@@ -17,7 +18,8 @@ import AppBar from './AppBar';
 config.autoAddCss = false;
 library.add(
   faReact, faCodeBranch, faUserNinja, faInstagram, faGithubSquare, faLinkedin,
-  faAddressCard, faPhone, faStar, faBriefcase, faDrum,
+  faAddressCard, faPhone, faStar, faBriefcase, faDrum, faBirthdayCake,
+  faCalendarAlt, faMale, faGlobeAmericas, faUser, faMapMarkerAlt, faEnvelope,
 );
 
 
