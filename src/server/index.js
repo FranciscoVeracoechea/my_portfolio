@@ -6,12 +6,14 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import favicon from 'serve-favicon';
 import cookieSession from 'cookie-session';
+import forcedomain from 'forcedomain';
 // configs
 import './configs/dbConnection';
 import passport from './configs/passport';
 import appSetter from './configs/appSetter';
 import development from './configs/development';
 import production from './configs/production';
+import createServer from './configs/createServer.js';
 // middlewares
 import deviceDetection from './middlewares/deviceDetection';
 import helmet from './middlewares/helpmet';
@@ -26,6 +28,11 @@ const isDev = process.env.NODE_ENV === 'development';
 const app = express();
 appSetter(app);
 
+app.use(forcedomain({
+  hostname: process.env.APP_URL,
+  port: app.get('port'),
+  protocol: isDev ? 'http' : 'https',
+}));
 app.use('/', express.static(path.join(__dirname, '..', '..', 'public')));
 app.use('/static', express.static(path.join(__dirname, '..', '..', 'static')));
 app.use(favicon(path.join(__dirname, '..', '..', 'static', 'favicon.ico')));
@@ -49,11 +56,11 @@ development(app, isDev);
 // production configurations
 production(app, isDev);
 
-app.listen(app.get('port'), (err) => {
+createServer(isDev, app).listen(app.get('port'), (err) => {
   if (!err && !isAnalyzer) {
     console.info(`Server listening on ${process.env.APP_URL}`);
   } else if (isAnalyzer) {
-    console.info(`Client report on ${app.get('browserEnv').appUrl}/static/clientReport.html`);
-    console.info(`Server report on ${app.get('browserEnv').appUrl}/static/serverReport.html`);
+    console.info(`Client report on ${process.env.APP_URL}/static/clientReport.html`);
+    console.info(`Server report on ${process.env.APP_URL}/static/serverReport.html`);
   }
 });
