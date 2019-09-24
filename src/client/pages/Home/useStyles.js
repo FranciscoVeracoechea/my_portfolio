@@ -7,13 +7,8 @@ export default makeStyles(theme => ({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
-    minHeight: '100vh',
     paddingTop: '6em',
-  },
-  titler: {
-    [theme.breakpoints.up('md')]: {
-      transform: 'translateY(-1em)',
-    },
+    height: '100%',
   },
   code: {
     fontSize: '5rem',
@@ -28,3 +23,4 @@ export default makeStyles(theme => ({
     },
   },
 }));
+; 5

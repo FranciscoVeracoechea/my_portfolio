@@ -9,7 +9,8 @@
     background-image: url($url);
     background-position: center;
     background-size: cover;
-    overflow-y: auto;
+    background-attachment: fixed;
+    min-height: 100vh;
 }
 
 @mixin backgroundPattern($url) {

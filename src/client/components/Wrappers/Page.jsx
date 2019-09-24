@@ -83,7 +83,7 @@ class Page extends Component<Props> {
       { property: 'og:type', content: contentType || 'website' },
       { property: 'og:url', content: appUrl + pathname },
       { property: 'og:image', content: theImage },
-      { property: 'og:escription', content: theDescription },
+      { property: 'og:description', content: theDescription },
       { property: 'og:site_name', content: appTitle },
       { property: 'fb:app_id', content: facebookId },
     ];
@@ -109,11 +109,11 @@ class Page extends Component<Props> {
 
   render() {
     const {
-      children, id, className, location: { pathname }, ...rest
+      children, location: { pathname }, ...rest
     } = this.props;
 
     return (
-      <div id={id} className={className}>
+      <>
         <Helmet
           htmlAttributes={{
             lang: 'en',
@@ -132,7 +132,7 @@ class Page extends Component<Props> {
           meta={this.getMetaTags(rest, pathname)}
         />
         {children}
-      </div>
+      </>
     );
   }
 }

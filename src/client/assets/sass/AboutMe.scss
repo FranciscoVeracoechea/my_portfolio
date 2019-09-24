@@ -1,24 +1,15 @@
 @import './global';
 
-.container {
-    @include backgroundImage('../img/bg2.jpg');
-    @include overlate(.4);
 
-    .paper {
-        color: $text;
-    }
+.titler, .profileImage {
+    padding-bottom: 1em;
+}
 
-    .titler, .profileImage {
-        padding-bottom: 1em;
-    }
+.profileImage {
+    width: 100%;
+    object-fit: cover;
+}
 
-    .profileImage {
-        max-width: 300px;
-        width: 100%;
-        object-fit: cover;
-    }
-
-    .icon {
-        margin-right: .8em;
-    }
+.icon {
+    margin-right: .8em;
 }

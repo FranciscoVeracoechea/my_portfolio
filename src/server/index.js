@@ -6,14 +6,12 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import favicon from 'serve-favicon';
 import cookieSession from 'cookie-session';
-import forcedomain from 'forcedomain';
 // configs
 import './configs/dbConnection';
 import passport from './configs/passport';
 import appSetter from './configs/appSetter';
 import development from './configs/development';
 import production from './configs/production';
-import createServer from './configs/createServer.js';
 // middlewares
 import deviceDetection from './middlewares/deviceDetection';
 import helmet from './middlewares/helpmet';
@@ -28,11 +26,6 @@ const isDev = process.env.NODE_ENV === 'development';
 const app = express();
 appSetter(app);
 
-app.use(forcedomain({
-  hostname: process.env.APP_URL,
-  port: app.get('port'),
-  protocol: isDev ? 'http' : 'https',
-}));
 app.use('/', express.static(path.join(__dirname, '..', '..', 'public')));
 app.use('/static', express.static(path.join(__dirname, '..', '..', 'static')));
 app.use(favicon(path.join(__dirname, '..', '..', 'static', 'favicon.ico')));
@@ -41,7 +34,10 @@ helmet(app);
 app.use(cookieSession({
   name: 'FV_portfolio',
   keys: [process.env.SECRET],
-  maxAge: process.env.TOKEN_LIFE,
+  cookie: {
+    maxAge: process.env.TOKEN_LIFE,
+    signed: true,
+  },
 }));
 app.use(deviceDetection());
 app.use(bodyParser.json());
@@ -56,7 +52,7 @@ development(app, isDev);
 // production configurations
 production(app, isDev);
 
-createServer(isDev, app).listen(app.get('port'), (err) => {
+app.listen(app.get('port'), (err) => {
   if (!err && !isAnalyzer) {
     console.info(`Server listening on ${process.env.APP_URL}`);
   } else if (isAnalyzer) {

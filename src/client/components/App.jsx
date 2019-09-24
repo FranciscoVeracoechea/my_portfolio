@@ -6,6 +6,7 @@ import {
   faCodeBranch, faUserNinja, faAddressCard, faPhone,
   faStar, faBriefcase, faDrum, faBirthdayCake, faCalendarAlt,
   faMale, faGlobeAmericas, faUser, faMapMarkerAlt, faEnvelope,
+  faFutbol, faMusic, faCode, faCoffee, faLaptopCode,
 } from '@fortawesome/free-solid-svg-icons';
 // import { far } from '@fortawesome/free-regular-svg-icons';
 import {
@@ -20,16 +21,17 @@ library.add(
   faReact, faCodeBranch, faUserNinja, faInstagram, faGithubSquare, faLinkedin,
   faAddressCard, faPhone, faStar, faBriefcase, faDrum, faBirthdayCake,
   faCalendarAlt, faMale, faGlobeAmericas, faUser, faMapMarkerAlt, faEnvelope,
+  faFutbol, faMusic, faLaptopCode, faCode, faCoffee,
 );
 
 
 const App = ({ children }) => (
-  <div>
+  <>
     <AppBar />
     <main>
       { children }
     </main>
-  </div>
+  </>
 );
 
 export default App;

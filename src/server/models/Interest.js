@@ -4,7 +4,7 @@ import mongoose, { Schema } from 'mongoose';
 const InterestSchema = new Schema({
   name: { type: String, required: true },
   description: { type: String },
-  link: { type: String },
+  faIcon: { type: String },
 }, {
   timestamps: true,
 });

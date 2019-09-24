@@ -104,7 +104,6 @@
     "express": "^4.17.1",
     "express-validator": "^6.2.0",
     "folktale": "^2.3.2",
-    "forcedomain": "^2.0.0",
     "helmet": "^3.20.1",
     "history": "^4.9.0",
     "immutable": "^4.0.0-rc.12",

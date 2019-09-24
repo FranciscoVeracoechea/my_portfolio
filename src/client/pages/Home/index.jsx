@@ -7,44 +7,44 @@ import SocialBar from '../../components/SocialBar';
 // assets
 import styles from '../../assets/sass/Home.scss';
 import useStyles from './useStyles';
-// utils
-import { classList } from '../../../shared/utils/functional';
+import SvgLeft from './SvgLeft';
+import SvgRight from './SvgRight';
 
 
 const Home = () => {
   const classes = useStyles();
   return (
     <Page>
-      <div className={styles.homeContainer}>
-        <Container fixed className={classes.container}>
-          <section className={styles.mainSection}>
-            <Typography className={classes.code} color="primary" variant="h1" component="span">
-              {'<'}
+      <Container fixed className={classes.container}>
+        <section className={styles.mainSection}>
+          <SvgLeft />
+          <div className={styles.titler}>
+            <Typography variant="h2" component="h1">
+              Francisco Veracoechea
             </Typography>
-            <div className={classList(styles.titler, classes.titler)}>
-              <Typography variant="h2" component="h1">
-                Francisco Veracoechea
-              </Typography>
-              <Typography variant="h4" component="h2">
-                Fullstack Developer
-              </Typography>
-            </div>
-            <Typography className={classes.code} color="primary" variant="h1" component="span">
-              <span>{'/>'}</span>
+            <Typography variant="h4" component="h2">
+              Fullstack Developer
             </Typography>
-          </section>
-          <section>
-            <p className={styles.code}>
-              <code>{'() => { '}</code>
-              <cite>&quot;Before a software can be reusable, it must first be usable.&quot;</cite>
-              <code>{' }'}</code>
-            </p>
-          </section>
-          <section>
-            <SocialBar />
-          </section>
-        </Container>
-      </div>
+          </div>
+          <SvgRight />
+        </section>
+        <section>
+          <div className={styles.citeContainer}>
+            <code>(</code>
+            <Typography variant="overline">
+              Ralph Johnson
+            </Typography>
+            <code>{') => { '}</code>
+            <br />
+            <cite className={styles.quot}>&quot;Before a software can be reusable, it must first be usable.&quot;</cite>
+            <br />
+            <code>{' };'}</code>
+          </div>
+        </section>
+        <section>
+          <SocialBar />
+        </section>
+      </Container>
     </Page>
   );
 };

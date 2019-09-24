@@ -1,10 +1,5 @@
 @import './global';
 
-.homeContainer {
-    @include backgroundImage('../img/bg2.jpg');
-    @include overlate(.4);
-}
-
 .mainTitle {
     font-size: 3em;
 }
@@ -17,17 +12,45 @@
     font-size: 1.2em;
 }
 
+.citeContainer {
+    background-color: transparent;
+    color: #f9f9fa;
+
+    .quot {
+        padding-left: 1em;
+    }
+}
+
 .mainSection {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     padding: 3.8em 0;
+    width: 100%;
 
     .titler {
-        padding: 0;
+        padding: 0 4px;
         display: flex;
         flex-direction: column;
         align-self: flex-end;
+    }
+
+    .svgLogoLeft {
+        animation: fill .6s ease forwards 3s;
+    }
+    .svgLogoRight {
+        animation: fill .6s ease forwards 3s;
+    }
+    .svgLogoRight path:nth-child(1) {
+        stroke-dasharray: 275.30572509765625px;
+        stroke-dashoffset: 275.30572509765625px;
+        animation: line-anim 2s ease forwards 1s;
+    }
+
+    .svgLogoLeft path:nth-child(1) {
+        stroke-dasharray: 275.30572509765625px;
+        stroke-dashoffset: 275.30572509765625px;
+        animation: line-anim 2s ease forwards 1s;
     }
 
     .leftIcon { 
@@ -41,5 +64,20 @@
             font-size: 10em;
             color: $primary;
         }
+    }
+}
+
+@keyframes line-anim {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes fill {
+    from {
+        fill: transparent;
+    }
+    to {
+        fill: $primary;
     }
 }

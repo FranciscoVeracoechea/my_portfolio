@@ -1,7 +1,7 @@
 export default [
   { title: 'Name', field: 'name' },
   { title: 'Description', field: 'description' },
-  { title: 'Link', field: 'link' },
+  { title: 'Icon', field: 'faIcon' },
   {
     title: 'Created At',
     field: 'createdAt',
