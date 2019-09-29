@@ -11,18 +11,30 @@ import theme from './theme.js';
 import App from '../client/components/App';
 // Routes
 import routes from './routes';
+import useRouter from '../client/hooks/useRouter';
+// animate
+import Animated from '../client/components/Wrappers/AnimatedView';
 
 
-const Root = () => (
-  <ThemeProvider theme={theme}>
-    <App>
-      <Switch>
-        { routes.map(props => <Route key={props.path} {...props} />) }
-        <Route render={() => <Redirect to="/" />} />
-      </Switch>
-    </App>
-  </ThemeProvider>
-);
+const Root = () => {
+  const { location } = useRouter();
+  return (
+    <ThemeProvider theme={theme}>
+      <App>
+        <Animated location={location} nested>
+          {
+            newLocation => (
+              <Switch location={newLocation}>
+                { routes.map(props => <Route key={props.path} {...props} />) }
+                <Route render={() => <Redirect to="/" />} />
+              </Switch>
+            )
+          }
+        </Animated>
+      </App>
+    </ThemeProvider>
+  );
+};
 
 setConfig({
   ignoreSFC: true,

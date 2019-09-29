@@ -1,4 +1,3 @@
-// @flows
 import {
   createStore, applyMiddleware, compose,
 } from 'redux';
@@ -16,10 +15,10 @@ import rootEpic from './epics';
 import rootReducer from './reducers';
 
 
-const composeEnhancers = root.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-// const composeEnhancers = root?.browserEnv?.env === 'development'
-//   ? root.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-//   : compose;
+// const composeEnhancers = root.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = root?.browserEnv?.env === 'development'
+  ? root.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+  : compose;
 
 export default (params) => {
   const {

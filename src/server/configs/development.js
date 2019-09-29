@@ -7,7 +7,7 @@ export default (app, isDev) => {
     ]).then(([
       { default: morgan }, { default: errorhandler }, { default: webpackDevServer },
     ]) => {
-      app.use(morgan('dev', {}));
+      app.use(morgan('dev'));
       webpackDevServer(app);
       app.use(errorhandler(isDev));
     }).catch(e => console.error(e.stack));

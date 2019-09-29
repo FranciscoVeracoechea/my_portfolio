@@ -3,7 +3,6 @@ import jwt from 'jsonwebtoken';
 // Models
 import User from '../models/User';
 // utils
-import Box from '../../shared/utils/Box';
 import { newError } from '../../shared/utils/functional';
 
 
@@ -132,23 +131,20 @@ export const logout = () => (req, res) => {
   });
 };
 
-export const update = () => (req, res, next) => {
-  Box([req.params.id, req.body, { new: true }])
-    .map(([id, data, options]) => [
-      id,
-      {
-        username: data.username,
-        email: data.email,
-        description: data.description,
-        fullname: data.fullname,
-      },
-      options,
-    ])
-    .chain(params => User.findByIdAndUpdate(...params, (err, data) => {
-      if (err) return next(err);
-      res.status(200).json({
-        message: 'Sucessfull Request',
-        data,
-      });
-    }));
-};
+export const update = () => (req, res, next) => User.findByIdAndUpdate(
+  req.params.id,
+  {
+    username: req.body.username,
+    email: req.body.email,
+    description: req.body.description,
+    fullname: req.body.fullname,
+  },
+  { new: true },
+  (err, data) => {
+    if (err) return next(err);
+    res.status(200).json({
+      message: 'Sucessfull Request',
+      data,
+    });
+  },
+);

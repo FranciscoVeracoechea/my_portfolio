@@ -9,20 +9,30 @@ import {
 
 
 const AnimatedView = ({ children, location }) => {
+  const timeout = 500;
   const [show, setShow] = useState(false);
   const [newLocation, setLocation] = useState(location);
 
-  useObservable(inputs$ => inputs$.pipe(
-    tap(() => setShow(false)),
-    delay(400),
-    tap(([l]) => {
-      setLocation(l);
-      setShow(true);
-    }),
+  useObservable(inputs$ => (
+    !location.pathname.includes('/dashboard')
+      ? inputs$.pipe(
+        tap(() => setShow(false)),
+        delay(timeout + 10),
+        tap(([l]) => {
+          setLocation(l);
+          setShow(true);
+        }),
+      )
+      : inputs$.pipe(
+        tap(([l]) => {
+          setLocation(l);
+          setShow(true);
+        }),
+      )
   ), false, [location]);
 
   return (
-    <Fade in={show} mountOnEnter unmountOnExit>
+    <Fade timeout={timeout} in={show} mountOnEnter unmountOnExit>
       <div>
         {children(newLocation)}
       </div>

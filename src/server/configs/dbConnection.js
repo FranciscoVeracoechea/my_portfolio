@@ -15,10 +15,12 @@ const {
 mongoose.Promise = Promise;
 
 mongoose.connect(`mongodb://${DB_HOST}:${DB_PORT}/${DB_NAME}`, {
-  useNewUrlParser: true,
   user: DB_USERNAME,
   pass: DB_PASSWORD,
   useCreateIndex: true,
+  useNewUrlParser: true,
+  useFindAndModify: false,
+  useUnifiedTopology: true,
 });
 mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
 mongoose.connection.once('open', () => {

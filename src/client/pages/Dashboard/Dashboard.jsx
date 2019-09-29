@@ -8,7 +8,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 // components
 import Page from '../../components/Wrappers/Page';
-import Animated from '../../components/Wrappers/AnimatedView';
 // assets
 import useStyles from './useStyles';
 import styles from '../../assets/sass/Dashboard.scss';
@@ -17,7 +16,7 @@ import { classList } from '../../../shared/utils/functional';
 import sections from './sections';
 
 
-const Dashboard = ({ location, match: { url } }) => {
+const Dashboard = ({ match: { url } }) => {
   const classes = useStyles();
 
   return (
@@ -46,19 +45,16 @@ const Dashboard = ({ location, match: { url } }) => {
           </List>
         </Drawer>
         <div className={classList(classes.content, styles.content)}>
-          <Animated location={location} nested>
-            {
-              newLocation => sections.map(({ route, Component, exact }) => (
-                <Route
-                  location={newLocation}
-                  path={route}
-                  component={Component}
-                  key={route}
-                  exact={Boolean(exact)}
-                />
-              ))
-            }
-          </Animated>
+          {
+            sections.map(({ route, Component, exact }) => (
+              <Route
+                path={route}
+                component={Component}
+                key={route}
+                exact={Boolean(exact)}
+              />
+            ))
+          }
         </div>
       </div>
     </Page>
