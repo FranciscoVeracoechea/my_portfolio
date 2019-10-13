@@ -15,6 +15,7 @@ import production from './configs/production';
 // middlewares
 import deviceDetection from './middlewares/deviceDetection';
 import helmet from './middlewares/helpmet';
+import fileStorage from './middlewares/fileStorage';
 // API router
 import ApiRouter from './API';
 
@@ -43,6 +44,7 @@ app.use(deviceDetection());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(passport.initialize());
+app.use(fileStorage);
 
 ApiRouter(app);
 

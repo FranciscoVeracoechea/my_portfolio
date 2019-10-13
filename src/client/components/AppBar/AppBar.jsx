@@ -2,18 +2,18 @@ import React from 'react';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  Avatar, IconButton, AppBar, Toolbar, Typography,
-  Tooltip,
+  Avatar, AppBar, Toolbar, Typography,
+  Tooltip, LinearProgress,
 } from '@material-ui/core';
-import { Link } from 'react-router-dom';
 // component
 import HideOnScroll from './HideOnScroll';
+import NavLink from '../NavLink';
 // assets
 import logo from '../../assets/img/logo_blue.svg';
 import useStyles from './useStyles';
 
 
-const AppNavigationBar = ({ user }) => {
+const AppNavigationBar = ({ user, progress }) => {
   const classes = useStyles();
 
   return (
@@ -27,56 +27,54 @@ const AppNavigationBar = ({ user }) => {
               color="secondary"
             >
               <Toolbar>
-                <IconButton
+                <NavLink
                   edge="start"
                   className={classes.menuButton}
                   color="inherit"
                   aria-label="open drawer"
                   to="/"
-                  component={Link}
                 >
                   <Avatar src={logo} alt="Francisco Veracoechea" />
-                </IconButton>
+                </NavLink>
                 <Typography className={classes.title} variant="h6" noWrap>
                   Francisco Veracoechea
                 </Typography>
                 <div className={classes.grow} />
                 <div className={classes.sectionDesktop}>
                   <Tooltip className={classes.tip} title="About Me">
-                    <IconButton
+                    <NavLink
                       aria-label="about me"
                       color="inherit"
                       to="/about-me"
-                      component={Link}
                     >
                       <FontAwesomeIcon icon="drum" size="2x" />
-                    </IconButton>
+                    </NavLink>
                   </Tooltip>
                   <Tooltip title="Repositories">
-                    <IconButton aria-label="Repositories" color="inherit">
+                    <NavLink aria-label="Repositories" color="inherit">
                       <FontAwesomeIcon icon="code-branch" />
-                    </IconButton>
+                    </NavLink>
                   </Tooltip>
                   <Tooltip title="Technologies and Skills">
-                    <IconButton
+                    <NavLink
                       aria-label="Technologies and Skills"
                       color="inherit"
+                      to="/skills"
                     >
                       <FontAwesomeIcon icon={['fab', 'react']} />
-                    </IconButton>
+                    </NavLink>
                   </Tooltip>
                   {
                     user
                       ? (
                         <Tooltip className={classes.tip} title="Dashboard">
-                          <IconButton
+                          <NavLink
                             aria-label="go tpo dashboard"
                             color="inherit"
                             to="/dashboard"
-                            component={Link}
                           >
                             <DashboardIcon />
-                          </IconButton>
+                          </NavLink>
                         </Tooltip>
                       )
                       : null
@@ -84,6 +82,11 @@ const AppNavigationBar = ({ user }) => {
                 </div>
               </Toolbar>
             </AppBar>
+            {
+              progress.show
+                ? <LinearProgress variant="determinate" value={progress.percent} style={{ zIndex: 100 }} />
+                : null
+            }
           </div>
         )
     }

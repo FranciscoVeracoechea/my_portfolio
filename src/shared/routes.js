@@ -3,6 +3,7 @@ import About from '../client/pages/About';
 import Home from '../client/pages/Home';
 import Auth from '../client/pages/Auth';
 import Dashboard from '../client/pages/Dashboard';
+import Skills from '../client/pages/Skills';
 
 
 const routes = [
@@ -20,6 +21,9 @@ const routes = [
     path: '/dashboard/:section?',
     component: Dashboard,
     protected: true,
+  }, {
+    path: '/skills',
+    component: Skills,
   },
 ];
 

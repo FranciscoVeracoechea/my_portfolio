@@ -6,6 +6,8 @@ import data from './dataReducer';
 import device from './deviceReducer';
 import auth from './authReducer';
 import interest from './interestReducer';
+import file from './fileReducer';
+import progress from './progressReducer';
 
 
 export default history => combineReducers({
@@ -14,4 +16,6 @@ export default history => combineReducers({
   auth,
   data,
   interest,
+  file,
+  progress,
 });

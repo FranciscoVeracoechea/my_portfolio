@@ -1,15 +1,16 @@
 import mongoose, { Schema } from 'mongoose';
 
 
-export const FileSchema = new Schema({
+const FileSchema = new Schema({
   kind: {
     type: String,
-    enum: ['picture', 'curriculum_vitae'],
+    enum: ['picture', 'curriculum_vitae', 'profile'],
   },
   url: { type: String },
-  name: String,
+  name: { type: String },
+  path: { type: String },
 }, {
   timestamps: true,
 });
 
-export const File = mongoose.model('File', FileSchema);
+export default mongoose.model('File', FileSchema);

@@ -6,7 +6,7 @@ import {
   faCodeBranch, faUserNinja, faAddressCard, faPhone,
   faStar, faBriefcase, faDrum, faBirthdayCake, faCalendarAlt,
   faMale, faGlobeAmericas, faUser, faMapMarkerAlt, faEnvelope,
-  faFutbol, faMusic, faCode, faCoffee, faLaptopCode,
+  faFutbol, faMusic, faCode, faCoffee, faLaptopCode, faFileAlt,
 } from '@fortawesome/free-solid-svg-icons';
 // import { far } from '@fortawesome/free-regular-svg-icons';
 import {
@@ -21,7 +21,7 @@ library.add(
   faReact, faCodeBranch, faUserNinja, faInstagram, faGithubSquare, faLinkedin,
   faAddressCard, faPhone, faStar, faBriefcase, faDrum, faBirthdayCake,
   faCalendarAlt, faMale, faGlobeAmericas, faUser, faMapMarkerAlt, faEnvelope,
-  faFutbol, faMusic, faLaptopCode, faCode, faCoffee,
+  faFutbol, faMusic, faLaptopCode, faCode, faCoffee, faFileAlt,
 );
 
 

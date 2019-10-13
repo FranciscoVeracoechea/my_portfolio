@@ -6,7 +6,7 @@ export default isDev => (error, req, res, next) => {
       ...error,
       status: error.status || 500,
     };
-    console.error('ERROR -> \n', e);
+    console.error('ERROR -> \n', error);
     return res.status(error.status || 500).json(e);
   }
 

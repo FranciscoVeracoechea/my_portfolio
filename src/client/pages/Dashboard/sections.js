@@ -11,6 +11,7 @@ import Dashboard from '../../components/Dashboard';
 import Experience from '../../components/Experience';
 import Interests from '../../components/Interests';
 import Technologies from '../../components/Technologies';
+import Files from '../../components/Files';
 
 
 const setIcon = icon => () => <FontAwesomeIcon icon={icon} />;
@@ -52,5 +53,11 @@ export default [
     Icon: CodeIcon,
     Component: Technologies,
     route: '/dashboard/technologies',
+  },
+  {
+    text: 'Files',
+    Icon: setIcon('file-alt'),
+    Component: Files,
+    route: '/dashboard/files',
   },
 ];
