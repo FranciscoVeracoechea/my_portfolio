@@ -20,4 +20,7 @@ export default {
     body('kind').trim().isLength({ min: 2, max: 78 }),
     validate(),
   ],
+  showByKind: [
+    param('kind').not().isEmpty(),
+  ],
 };

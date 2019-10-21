@@ -5,11 +5,11 @@ import { matchPath, StaticRouter } from 'react-router-dom';
 import { ServerStyleSheets } from '@material-ui/styles';
 import { Provider } from 'react-redux';
 import {
-  from, isObservable, of, Subject, iif, forkJoin,
+  isObservable, of, Subject, iif, combineLatest,
 } from 'rxjs';
 import isPromise from 'is-promise';
 import {
-  filter, mergeMap, map, tap, withLatestFrom, mapTo, toArray, defaultIfEmpty,
+  filter, mergeMap, map, tap, withLatestFrom, takeLast, defaultIfEmpty, scan, mapTo,
 } from 'rxjs/operators';
 // actions
 import { setUADevice } from '../../shared/actions/deviceActions';
@@ -20,9 +20,11 @@ import Root from '../../shared/RootComponent';
 import htmlTemplate from '../htmlTemplate';
 // Routes
 import routes from '../../shared/routes';
+// utils
+import { isArray } from '../../shared/utils/functional';
 
 
-const routes$ = from(routes);
+const routes$ = of(...routes);
 const ssr$ = new Subject();
 const serverData$ = new Subject();
 const dispatch$ = new Subject();
@@ -35,10 +37,15 @@ const routesStream = ({ req, res, store }) => routes$.pipe(
   map(action => (
     isObservable(action) || isPromise(action)
       ? action
-      : of(dispatch$.next({ store, action, isInitialAction: true }) || null)
+      : of(action)
   )),
-  toArray(),
-  mergeMap(values => forkJoin(...values)),
+  mergeMap(values => combineLatest(values)),
+  map(([action]) => action),
+  scan((acc, current) => [...acc, current], []),
+  takeLast(1),
+  tap(actions => isArray(actions) && actions.forEach(
+    action => action && dispatch$.next({ store, action, isInitialAction: true })
+  )),
   mapTo({ req, res, store }),
   defaultIfEmpty({ req, res, store })
 );
@@ -63,9 +70,11 @@ ssr$.pipe(
       : null
   )),
   mergeMap(ssr => routesStream(ssr)),
-  // tap(console.log),
   withLatestFrom(serverData$),
-).subscribe(([{ req, res, store }, { browserEnv, hash }]) => {
+).subscribe(([
+  { req, res, store },
+  { browserEnv, hash },
+]) => {
   if (res.headersSent) return;
 
   const context = {};

@@ -20,7 +20,7 @@ export const show = () => (req, res, next) => File.findById(req.params.id)
   }))
   .catch(next);
 
-export const showByCategory = () => (req, res, next) => File.find({ category: req.params.category })
+export const showByKind = () => (req, res, next) => File.find({ kind: req.params.kind })
   .then(data => res.status(200).json({
     message: 'Sucessfull Request',
     data,

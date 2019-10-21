@@ -1,20 +1,38 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   Avatar, AppBar, Toolbar, Typography,
-  Tooltip, LinearProgress,
+  LinearProgress, CircularProgress,
 } from '@material-ui/core';
+import {
+  pluck, delay,
+} from 'rxjs/operators';
 // component
 import HideOnScroll from './HideOnScroll';
-import NavLink from '../NavLink';
+import NavLink from '../NavigationLink';
 // assets
 import logo from '../../assets/img/logo_blue.svg';
 import useStyles from './useStyles';
+// helpers
+import request from '../../../shared/utils/Request';
 
 
 const AppNavigationBar = ({ user, progress }) => {
   const classes = useStyles();
+  const [url, setUrl] = useState('');
+  useEffect(() => {
+    request({
+      url: '/api/file/kind/curriculum_vitae',
+      method: 'GET',
+    }).pipe(
+      delay(2000),
+      pluck('response'),
+    ).subscribe(
+      res => setUrl(res?.data[0]?.url),
+      console.error
+    );
+  }, []);
 
   return (
     <HideOnScroll>
@@ -40,51 +58,57 @@ const AppNavigationBar = ({ user, progress }) => {
                   Francisco Veracoechea
                 </Typography>
                 <div className={classes.grow} />
-                <div className={classes.sectionDesktop}>
-                  <Tooltip className={classes.tip} title="About Me">
-                    <NavLink
-                      aria-label="about me"
-                      color="inherit"
-                      to="/about-me"
-                    >
-                      <FontAwesomeIcon icon="drum" size="2x" />
-                    </NavLink>
-                  </Tooltip>
-                  <Tooltip title="Repositories">
-                    <NavLink aria-label="Repositories" color="inherit">
-                      <FontAwesomeIcon icon="code-branch" />
-                    </NavLink>
-                  </Tooltip>
-                  <Tooltip title="Technologies and Skills">
-                    <NavLink
-                      aria-label="Technologies and Skills"
-                      color="inherit"
-                      to="/skills"
-                    >
-                      <FontAwesomeIcon icon={['fab', 'react']} />
-                    </NavLink>
-                  </Tooltip>
+                <ul className={classes.sectionDesktop}>
+                  <NavLink
+                    title="About Me"
+                    color="inherit"
+                    to="/about-me"
+                  >
+                    <FontAwesomeIcon icon="info-circle" />
+                  </NavLink>
+                  <NavLink title="Repositories" aria-label="Repositories" color="inherit">
+                    <FontAwesomeIcon icon="code-branch" />
+                  </NavLink>
+                  <NavLink
+                    color="inherit"
+                    to="/skills"
+                    title="Technologies and Skills"
+                  >
+                    <FontAwesomeIcon icon={['fab', 'react']} />
+                  </NavLink>
+                  <NavLink
+                    title="Resume"
+                    color="inherit"
+                    to={url}
+                    pdf
+                  >
+                    {
+                      url
+                        ? <FontAwesomeIcon icon="file-pdf" />
+                        : <CircularProgress size={25} />
+                    }
+                  </NavLink>
                   {
                     user
                       ? (
-                        <Tooltip className={classes.tip} title="Dashboard">
-                          <NavLink
-                            aria-label="go tpo dashboard"
-                            color="inherit"
-                            to="/dashboard"
-                          >
-                            <DashboardIcon />
-                          </NavLink>
-                        </Tooltip>
+                        <NavLink
+                          aria-label="Dashboard"
+                          color="inherit"
+                          to="/dashboard"
+                          className={classes.tip}
+                          title="Dashboard"
+                        >
+                          <DashboardIcon />
+                        </NavLink>
                       )
                       : null
                   }
-                </div>
+                </ul>
               </Toolbar>
             </AppBar>
             {
               progress.show
-                ? <LinearProgress variant="determinate" value={progress.percent} style={{ zIndex: 100 }} />
+                ? <LinearProgress variant={progress.variant} value={progress.percent} style={{ zIndex: 100 }} />
                 : null
             }
           </div>

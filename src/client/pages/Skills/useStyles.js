@@ -10,10 +10,11 @@ export default makeStyles({
     padding: '1em',
     color: '#f9f9fa',
   },
-  sliderGrid: {
-    height: '18em',
+  sliderWrapper: {
+    height: '22vh',
+    minHeight: '250px',
+    width: '100%',
     padding: 0,
-    backgroundColor: 'rgba(43, 43, 43, .8)',
     overflow: 'hidden',
     position: 'relative',
   },

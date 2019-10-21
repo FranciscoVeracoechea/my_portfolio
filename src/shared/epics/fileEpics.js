@@ -73,3 +73,23 @@ export const sendFileEpic = action$ => action$.pipe(
     })),
   ))
 );
+
+export const getProfilePicture = action$ => action$.pipe(
+  ofType(actionTypes.fetchProfile),
+  mergeMap(() => request({
+    url: '/api/file/kind/profile',
+    method: 'GET',
+  }).pipe(
+    map(({ response }) => ({
+      type: actionTypes.fetchFilesSuccess,
+      payload: response,
+    })),
+    catchError(error => of({
+      type: actionTypes.fetchFilesRejected,
+      payload: error,
+    })),
+    takeUntil(action$.pipe(
+      ofType(actionTypes.fetchFilesCanceled)
+    )),
+  ))
+);

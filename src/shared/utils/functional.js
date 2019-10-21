@@ -8,7 +8,7 @@ export const compose = (...fns) => x => fns.reduceRight((v, f) => f(v), x);
 
 // ------------------------------------------------------
 // VALIDATIONS
-export const isArray = variable => (variable instanceof Array);
+export const isArray = variable => (variable && variable instanceof Array);
 
 export const isDefined = value => (value !== false && typeof value !== 'undefined' && value !== null && value !== 0);
 

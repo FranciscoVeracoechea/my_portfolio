@@ -18,6 +18,7 @@ export const actionTypes = {
   deleteFile: 'DELETE_FILE',
   deleteFilePending: 'DELETE_FILE/PENDING',
   deleteFileError: 'DELETE_FILE/REJECTED',
+  fetchProfile: 'FETCH_PROFILE_PICTURE',
 };
 
 export const sendFile = payload => ({
@@ -31,6 +32,10 @@ export const fetchFiles = () => ({
 
 export const fetchCanceled = () => ({
   type: actionTypes.fetchFilesCanceled,
+});
+
+export const fetchProfilePicture = () => ({
+  type: actionTypes.fetchProfile,
 });
 
 // delete

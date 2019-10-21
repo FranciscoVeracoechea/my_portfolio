@@ -3,12 +3,12 @@ export const actionTypes = {
   setShowProgress: 'SET_SHOW_PROGRESS',
 };
 
-export const updateProgress = value => ({
+export const updateProgress = (value, variant) => ({
   type: actionTypes.updateProgressValue,
-  payload: { value },
+  payload: { value, variant },
 });
 
-export const setShowProgress = value => ({
+export const setShowProgress = (value, variant) => ({
   type: actionTypes.setShowProgress,
-  payload: { value },
+  payload: { value, variant },
 });

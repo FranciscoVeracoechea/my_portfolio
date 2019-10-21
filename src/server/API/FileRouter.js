@@ -15,7 +15,7 @@ export default () => {
   const openRouter = Router();
   openRouter.get('/', FileController.index());
   openRouter.get('/:id', FileValidations.show, FileController.show());
-  openRouter.get('/category/:category', FileController.showByCategory());
+  openRouter.get('/kind/:kind', FileValidations.showByKind, FileController.showByKind());
 
   return [protectedRouter, openRouter];
 };

@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   Container, Grid, Paper, Typography,
 } from '@material-ui/core';
@@ -22,9 +21,12 @@ const timeout = 1000;
 // helpers
 const filterByCategpory = (data, category) => data.data.filter(d => d.category === category);
 const findByCategory = (data, category) => data.data.find(d => d.category === category);
+const findProfilePicture = data => data.data.find(d => d.kind === 'profile');
 
 const About = ({
   data,
+  file,
+  fetchProfilePicture,
   interest,
   fetchData,
   fetchInterest,
@@ -33,8 +35,9 @@ const About = ({
   useEffect(() => {
     if (isFirstRender(data.data)) setTimeout(fetchData, timeout);
     if (isFirstRender(interest.data)) setTimeout(fetchInterest, timeout);
+    if (isFirstRender(file.data)) setTimeout(fetchProfilePicture, timeout);
   }, []);
-  if (data.loading && interest.loading) return <Placeholder />;
+  if (data.loading || interest.loading || file.loading) return <Placeholder />;
   return (
     <Page title="About me">
       <Container fixed className={classes.container}>
@@ -49,7 +52,7 @@ const About = ({
               <figure>
                 <img
                   className={styles.profileImage}
-                  src="https://avatars0.githubusercontent.com/u/26258895?v=4"
+                  src={findProfilePicture(file)?.url}
                   alt="francisco veracoechea"
                 />
                 <figcaption className={styles.caption}>
@@ -68,7 +71,10 @@ const About = ({
                     </Typography>
                   </div>
                   <div>
-                    { findByCategory(data, objective)?.value }
+                    <Typography
+                      variant="body2"
+                      dangerouslySetInnerHTML={{ __html: findByCategory(data, objective)?.value }}
+                    />
                   </div>
                 </Paper>
               </Grid>

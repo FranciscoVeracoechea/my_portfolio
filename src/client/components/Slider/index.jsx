@@ -29,8 +29,8 @@ const Slider = ({ wrapper, file }) => {
   const handleOnDragStart = e => e.preventDefault();
 
   useEffect(() => {
-    if (!isFirstRender(file.data)) setData(file.data);
-  }, [file.data]);
+    if (!isFirstRender(file.data)) setData(file.data.filter(d => d.kind === 'picture'));
+  }, [file.data, file.loading]);
 
   const [props, set] = useSprings(data.length, i => ({
     x: i * wrapper.clientWidth,
@@ -52,25 +52,23 @@ const Slider = ({ wrapper, file }) => {
       return { x, sc, display: 'block' };
     });
   });
-  return props.map(({ x, display, sc }, i) => {
-    return (
+  return props.map(({ x, display, sc }, i) => (
+    <animated.div
+      className={styles.slider}
+      {...bind()}
+      key={data[i]._id}
+      style={{
+        display,
+        transform: x.interpolate(_x => `translate3d(${_x}px,0,0)`),
+        opacity: !isFirstRender(file.data) ? 1 : 0.6,
+      }}
+    >
       <animated.div
-        className={styles.slider}
-        {...bind()}
-        key={data[i]._id}
-        style={{
-          display,
-          transform: x.interpolate(_x => `translate3d(${_x}px,0,0)`),
-          opacity: !isFirstRender(file.data) ? 1 : 0.6,
-        }}
-      >
-        <animated.div
-          onDragStart={handleOnDragStart}
-          style={{ transform: sc.interpolate(s => `scale(${s})`), backgroundImage: `url(${data[i].url})` }}
-        />
-      </animated.div>
-    );
-  });
+        onDragStart={handleOnDragStart}
+        style={{ transform: sc.interpolate(s => `scale(${s})`), backgroundImage: `url(${data[i].url})` }}
+      />
+    </animated.div>
+  ));
 };
 
 export default Slider;
