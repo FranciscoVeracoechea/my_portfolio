@@ -1,10 +1,9 @@
-const modules = [
-  'webpack',
-  'webpack-dev-middleware',
-  'webpack-hot-middleware',
-  'webpack-hot-server-middleware',
-  '../../../webpack/webpack.config.js',
-];
+import webpack from 'webpack';
+import webpackDevMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
+import webpackHotServerMiddleware from 'webpack-hot-server-middleware';
+import config from '../../../webpack/webpack.config.js';
+
 
 const reporter = (middlewareOptions, options) => {
   const { log, state, stats } = options;
@@ -12,7 +11,6 @@ const reporter = (middlewareOptions, options) => {
   if (state) {
     const displayStats = middlewareOptions.stats !== false;
     const statsString = stats.toString(middlewareOptions.stats);
-    log.info('Universal React Nightmare');
     // displayStats only logged
     if (displayStats && statsString.trim().length) {
       if (stats.hasErrors()) {
@@ -33,29 +31,17 @@ const reporter = (middlewareOptions, options) => {
 };
 
 export default (app) => {
-  Promise.all([
-    ...modules.map(module => import(module)),
-  ]).then(([
-    { default: webpack },
-    { default: webpackDevMiddleware },
-    { default: webpackHotMiddleware },
-    { default: webpackHotServerMiddleware },
-    { default: config },
-  ]) => {
-    const compiler = webpack(config);
-    const devMiddleware = webpackDevMiddleware(compiler, {
-      serverSideRender: true,
-      reporter,
-    });
-    app.use(devMiddleware);
-    // devMiddleware.waitUntilValid(() => {
-    //   console.info('Compiled');
-    // });
-    app.use(webpackHotMiddleware(compiler.compilers.find(c => c.name === 'client')));
-    app.use(webpackHotServerMiddleware(compiler, {
-      serverRendererOptions: {
-        browserEnv: app.get('browserEnv'),
-      },
-    }));
+  const compiler = webpack(config);
+  const devMiddleware = webpackDevMiddleware(compiler, {
+    serverSideRender: true,
+    reporter,
   });
+  console.info('Universal React Nightmare -> Compiling...');
+  app.use(devMiddleware);
+  app.use(webpackHotMiddleware(compiler.compilers.find(c => c.name === 'client')));
+  app.use(webpackHotServerMiddleware(compiler, {
+    serverRendererOptions: {
+      browserEnv: app.get('browserEnv'),
+    },
+  }));
 };

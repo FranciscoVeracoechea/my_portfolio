@@ -2,9 +2,13 @@
 
 // FUNCTIONS COMPOSERS
 // pipe
-export const pipe = (...fns) => x => fns.reduce((v, f) => f(v), x);
+export const pipe = (...fns) => (...args) => fns.reduce(
+  (res, fn) => [fn.call(null, ...res)], args
+)[0];
 // compose (inversed pipe)
-export const compose = (...fns) => x => fns.reduceRight((v, f) => f(v), x);
+export const compose = (...fns) => (...args) => fns.reduceRight(
+  (res, fn) => [fn.call(null, ...res)], args
+)[0];
 
 // ------------------------------------------------------
 // VALIDATIONS

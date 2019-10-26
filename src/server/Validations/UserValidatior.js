@@ -3,8 +3,9 @@ import {
 } from 'express-validator';
 // Models
 import User from '../models/User';
-// middleware
-import validate from '../middlewares/validationResult';
+// utils
+import addValidation from '../../shared/utils/addValidation';
+
 
 // consts ---------------------
 const {
@@ -22,12 +23,11 @@ const checkEmail = (email, { req }) => User.findOne({ email }).then((user) => {
   if (user) return Promise.reject(new Error('E-mail already in use'));
 });
 
-// rules ----------------------------------
-export default {
+// validations
+const rules = {
   show: [
     param('username').not().isEmpty().trim()
       .isLength({ min: 4, max: 28 }),
-    validate(),
   ],
   register: [
     body('email').isEmail().custom(checkEmail),
@@ -42,14 +42,12 @@ export default {
       .isLength({ min: 4, max: 28 })
       .custom(checkUsername),
     body('grantType').isIn([TOKEN, COOKIE]),
-    validate(),
   ],
   login: [
     sanitizeBody('password').customSanitizer(value => String(value)),
     body('email').isEmail(),
     body('password').isLength({ min: 5, max: 78 }),
     body('grantType').isIn([TOKEN, COOKIE]),
-    validate(),
   ],
   update: [
     param('id').isMongoId(),
@@ -64,6 +62,7 @@ export default {
       .trim().escape()
       .optional({ checkFalsy: true })
       .withMessage('must have a size between 4 and 48 chars'),
-    validate(),
   ],
 };
+
+export default addValidation(rules);

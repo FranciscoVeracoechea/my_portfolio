@@ -1,5 +1,5 @@
 import {
-  param, body,
+  param, body, sanitizeBody,
 } from 'express-validator';
 // utils
 import addValidation from '../../shared/utils/addValidation';
@@ -15,12 +15,15 @@ const rules = {
   ],
   create: [
     body('name').trim().isLength({ min: 2, max: 78 }),
-    body('kind').trim().isLength({ min: 2, max: 78 }),
+    body('order').isNumeric(),
+    sanitizeBody('order').toInt(),
   ],
-  showByKind: [
-    param('kind').not().isEmpty(),
+  update: [
+    param('id').isMongoId(),
+    body('name').trim().isLength({ min: 2, max: 78 }),
+    body('order').isNumeric(),
+    sanitizeBody('order').toInt(),
   ],
 };
-
 
 export default addValidation(rules);

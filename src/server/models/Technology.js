@@ -15,7 +15,7 @@ export const TechnologySchema = new Schema({
 });
 
 export const TechnologyCategorySchema = new Schema({
-  type: { String, required: true, unique: true },
+  name: { type: String, required: true, unique: true },
   order: { type: Number, unique: true },
   technologies: [TechnologySchema],
 }, {
