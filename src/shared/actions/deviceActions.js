@@ -1,22 +1,15 @@
-// @flow
 export const actionTypes = {
   setUADevice: 'SET_DEVICE_BY_USER_AGENT',
   resolutionKind: 'SET_DEVICE_BY_RESOLUTION',
 };
 
-export const setUADevice = (payload: { isMobile: boolean, isBot: boolean }) => ({
+export const setUADevice = payload => ({
   type: actionTypes.setUADevice,
   payload,
 });
 
 
-export const resolutionKind = (
-  payload: {
-    pagination: number,
-    resolutionKind: string,
-    isTouch: boolean,
-  }
-) => ({
+export const resolutionKind = payload => ({
   type: actionTypes.resolutionKind,
   payload,
 });

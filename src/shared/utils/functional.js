@@ -6,9 +6,7 @@ export const pipe = (...fns) => (...args) => fns.reduce(
   (res, fn) => [fn.call(null, ...res)], args
 )[0];
 // compose (inversed pipe)
-export const compose = (...fns) => (...args) => fns.reduceRight(
-  (res, fn) => [fn.call(null, ...res)], args
-)[0];
+export const compose = (...fns) => (...args) => fns.reduceRight((res, fn) => [fn.call(null, ...res)], args)[0];
 
 // ------------------------------------------------------
 // VALIDATIONS
@@ -24,18 +22,10 @@ export const isFloat = n => (n % 1 !== 0);
 
 export const isFirstRender = items => (items && items.length === 0) || !isDefined(items);
 
-export const executeIfFunction = (f, param = null) => ((f instanceof Function) ? f(param) : f);
+export const executeIfFunction = (f, ...params) => ((f instanceof Function) ? f(...params) : f);
 
 export const isString = str => (typeof str === 'string');
 // ------------------------------------------------------
-// FUNCTIONAL STATEMENTS
-// if else
-export const iif = value => isTrue => isFalse => (
-  value
-    ? executeIfFunction(isTrue, value)
-    : executeIfFunction(isFalse, value)
-);
-
 // switch case
 export const switchCase = cases => defaultCase => key => executeIfFunction(
   Object.prototype.hasOwnProperty.call(cases, key) ? cases[key] : defaultCase
@@ -73,7 +63,7 @@ export const serialezeForm = formElement => [...formElement]
   .reduce(arrayToObject, {});
 
 // match media
-export const match = media => window.matchMedia(media).matches;
+export const match = media => window.matchMedia(media);
 
 // string capitalizer
 export const capitalizer = (string, separator = ' ') => string.split(separator).map(
