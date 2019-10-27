@@ -8,6 +8,7 @@ const initialState = {
   resolutionKind: '',
   isMobile: false,
   isBot: false,
+  mediaQuery: '',
 };
 
 export default (state = initialState, action) => {
@@ -18,6 +19,7 @@ export default (state = initialState, action) => {
         pagination: action.payload.pagination,
         resolutionKind: action.payload.resolutionKind,
         isTouch: action.payload.isTouch,
+        mediaQuery: action.payload.media,
       };
     case actionTypes.setUADevice:
       return {

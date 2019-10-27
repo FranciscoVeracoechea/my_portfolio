@@ -13,7 +13,7 @@ import App from '../client/components/App';
 import routes from './routes';
 import useRouter from '../client/hooks/useRouter';
 // animate
-import Animated from '../client/components/Wrappers/AnimatedView';
+import AnimatedView from '../client/components/Wrappers/AnimatedView';
 
 
 const Root = () => {
@@ -21,7 +21,7 @@ const Root = () => {
   return (
     <ThemeProvider theme={theme}>
       <App>
-        <Animated location={location} nested>
+        <AnimatedView location={location}>
           {
             newLocation => (
               <Switch location={newLocation}>
@@ -30,7 +30,7 @@ const Root = () => {
               </Switch>
             )
           }
-        </Animated>
+        </AnimatedView>
       </App>
     </ThemeProvider>
   );

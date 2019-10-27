@@ -3,26 +3,23 @@ import {
 } from 'express-validator';
 // Model
 import { categories } from '../models/Data';
-// middleware
-import validate from '../middlewares/validationResult';
+// utils
+import addValidation from '../../shared/utils/addValidation';
 
 
-// rules
-export default {
+// validations
+const rules = {
   show: [
     param('id').isMongoId(),
-    validate(),
   ],
   destroy: [
     param('id').isMongoId(),
-    validate(),
   ],
   create: [
     sanitizeBody('key').customSanitizer(value => String(value)),
     body('key').trim().isLength({ min: 2, max: 78 }),
     body('value').trim().isLength({ min: 2, max: 378 }),
     body('category').isIn(categories),
-    validate(),
   ],
   update: [
     param('id').isMongoId(),
@@ -30,10 +27,10 @@ export default {
     body('key').trim().isLength({ min: 2, max: 78 }),
     body('value').trim().isLength({ min: 2, max: 378 }),
     body('category').isIn(categories),
-    validate(),
   ],
   showByCategory: [
     param('category').isIn(categories),
-    validate(),
   ],
 };
+
+export default addValidation(rules);

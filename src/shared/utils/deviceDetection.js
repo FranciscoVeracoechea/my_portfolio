@@ -1,51 +1,44 @@
 // dependencies
 import { fromEvent } from 'rxjs';
-import { throttleTime, mapTo, map } from 'rxjs/operators';
+import { throttleTime, map, tap, mapTo } from 'rxjs/operators';
 // action
 import { resolutionKind } from '../actions/deviceActions';
-import { match, pipe } from './functional';
+import { match, compose } from './functional';
 
 
-const deviceData = {
-  isTouch: 'ontouchstart' in window || 'ontouchstart' in document.documentElement,
-};
+const isTouch = 'ontouchstart' in window || 'ontouchstart' in document.documentElement;
+const deviceData = [
+  {
+    media: '(max-width: 599px)',
+    pagination: 3,
+    resolutionKind: 'mobile',
+  },
+  {
+    media: '(max-width: 960px)',
+    pagination: 6,
+    resolutionKind: 'tablet',
+  },
+  {
+    media: '(max-width: 1600px)',
+    pagination: 9,
+    resolutionKind: 'desktop',
+  },
+  {
+    media: '(min-width: 1601px)',
+    pagination: 12,
+    resolutionKind: 'tv',
+  },
+];
+
 
 // Get device
-export function getResolutionKind() {
-  if (match('(max-width: 599px)')) {
-    return {
-      ...deviceData,
-      pagination: 3,
-      resolutionKind: 'mobile',
-    };
-  }
-  if (match('(max-width: 960px)')) {
-    return {
-      ...deviceData,
-      pagination: 6,
-      resolutionKind: 'tablet',
-    };
-  }
-  if (match('(max-width: 1600px)')) {
-    return {
-      ...deviceData,
-      pagination: 9,
-      resolutionKind: 'desktop',
-    };
-  }
-  if (match('(min-width: 1601px)')) {
-    return {
-      ...deviceData,
-      pagination: 12,
-      resolutionKind: 'tv',
-    };
-  }
-}
+export const getResolutionKind = () => ({
+  ...deviceData.find(d => match(d.media).matches),
+  isTouch,
+});
 
-export const setInitialDevice = dispatch => pipe(
-  getResolutionKind,
-  resolutionKind,
-  dispatch
+export const setInitialDevice = dispatch => compose(
+  dispatch, resolutionKind, getResolutionKind,
 )();
 
 // deveice listener
@@ -53,4 +46,5 @@ export const resolution$ = fromEvent(window, 'resize').pipe(
   throttleTime(250),
   mapTo(getResolutionKind()),
   map(resolutionKind),
+  tap(console.log),
 );

@@ -7,26 +7,30 @@ import bodyParser from 'body-parser';
 import favicon from 'serve-favicon';
 import cookieSession from 'cookie-session';
 // configs
-import './configs/dbConnection';
-import passport from './configs/passport';
-import appSetter from './configs/appSetter';
-import development from './configs/development';
-import production from './configs/production';
+import dbConnection from './configs/dbConnection';
+import passportConfig from './configs/passport';
+import appVars from './configs/appVars';
 // middlewares
 import deviceDetection from './middlewares/deviceDetection';
 import helmet from './middlewares/helpmet';
 import fileStorage from './middlewares/fileStorage';
+import errorHandler from './middlewares/errorHandler';
 // API router
 import ApiRouter from './API';
 
-
+// Environment Constants
 dotenv.config();
 const isAnalyzer = process.env.ANALYZER === 'true';
 const isDev = process.env.NODE_ENV === 'development';
-
+// MongoDB connection
+dbConnection();
+// JWT auth config
+const passport = passportConfig();
+// Application
 const app = express();
-appSetter(app);
-
+// setting app variables
+appVars(app);
+// setting app configs
 app.use('/', express.static(path.join(__dirname, '..', '..', 'public')));
 app.use('/static', express.static(path.join(__dirname, '..', '..', 'static')));
 app.use(favicon(path.join(__dirname, '..', '..', 'static', 'favicon.ico')));
@@ -45,19 +49,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(fileStorage);
-
+// API router
 ApiRouter(app);
-
-
-// development configurations
-development(app, isDev);
-// production configurations
-production(app, isDev);
-
+// Environment Config
+import(isDev ? './configs/development' : './configs/production')
+  .then(serverConfig => serverConfig.default(app));
+// Error handler Middleware
+app.use(errorHandler(isDev));
+// server starts
 app.listen(app.get('port'), (err) => {
   if (!err && !isAnalyzer) {
     console.info(`Server listening on ${process.env.APP_URL}`);
-  } else if (isAnalyzer) {
+  } else if (!err && isAnalyzer) {
     console.info(`Client report on ${process.env.APP_URL}/static/clientReport.html`);
     console.info(`Server report on ${process.env.APP_URL}/static/serverReport.html`);
   }

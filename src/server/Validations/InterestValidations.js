@@ -1,19 +1,17 @@
 import {
   param, body,
 } from 'express-validator';
-// middleware
-import validate from '../middlewares/validationResult';
+// utils
+import addValidation from '../../shared/utils/addValidation';
 
 
-// rules
-export default {
+// validations
+const rules = {
   show: [
     param('id').isMongoId(),
-    validate(),
   ],
   destroy: [
     param('id').isMongoId(),
-    validate(),
   ],
   create: [
     body('name').trim().isLength({ min: 2, max: 78 }),
@@ -21,7 +19,6 @@ export default {
       .optional({ checkFalsy: true }),
     body('link').trim().isURL()
       .optional({ checkFalsy: true }),
-    validate(),
   ],
   update: [
     param('id').isMongoId(),
@@ -30,6 +27,7 @@ export default {
       .optional({ checkFalsy: true }),
     body('link').trim().isURL()
       .optional({ checkFalsy: true }),
-    validate(),
   ],
 };
+
+export default addValidation(rules);
