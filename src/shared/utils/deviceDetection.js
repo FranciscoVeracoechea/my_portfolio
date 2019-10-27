@@ -46,5 +46,4 @@ export const resolution$ = fromEvent(window, 'resize').pipe(
   throttleTime(250),
   mapTo(getResolutionKind()),
   map(resolutionKind),
-  tap(console.log),
 );

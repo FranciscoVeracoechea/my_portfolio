@@ -25,8 +25,6 @@ const reporter = (middlewareOptions, options) => {
       message = 'Compiled with warnings.';
     }
     log.info(message);
-  } else {
-    log.info('Compiling...');
   }
 };
 

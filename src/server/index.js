@@ -6,6 +6,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import favicon from 'serve-favicon';
 import cookieSession from 'cookie-session';
+import moment from 'moment';
 // configs
 import dbConnection from './configs/dbConnection';
 import passportConfig from './configs/passport';
@@ -39,10 +40,8 @@ helmet(app);
 app.use(cookieSession({
   name: 'FV_portfolio',
   keys: [process.env.SECRET],
-  cookie: {
-    maxAge: process.env.TOKEN_LIFE,
-    signed: true,
-  },
+  maxAge: moment().add(Number(process.env.TOKEN_LIFE), 'days'),
+  signed: true,
 }));
 app.use(deviceDetection());
 app.use(bodyParser.json());

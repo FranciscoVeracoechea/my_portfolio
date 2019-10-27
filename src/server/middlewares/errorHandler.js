@@ -1,4 +1,4 @@
-export default isDev => (error, req, res, next) => {
+export default isDev => (error, req, res, _next) => {
   const message = error.message || 'An error has occurred, please try again and make sure the data is correct';
 
   if (isDev) {
