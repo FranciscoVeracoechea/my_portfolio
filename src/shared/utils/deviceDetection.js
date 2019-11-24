@@ -1,6 +1,8 @@
 // dependencies
 import { fromEvent } from 'rxjs';
-import { throttleTime, map, tap, mapTo } from 'rxjs/operators';
+import {
+  throttleTime, map, mapTo,
+} from 'rxjs/operators';
 // action
 import { resolutionKind } from '../actions/deviceActions';
 import { match, compose } from './functional';

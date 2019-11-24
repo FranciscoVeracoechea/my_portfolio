@@ -66,9 +66,9 @@ const AppNavigationBar = ({ user, progress }) => {
                   >
                     <FontAwesomeIcon icon="info-circle" />
                   </NavLink>
-                  <NavLink title="Repositories" aria-label="Repositories" color="inherit">
+                  {/* <NavLink title="Repositories" aria-label="Repositories" color="inherit">
                     <FontAwesomeIcon icon="code-branch" />
-                  </NavLink>
+                  </NavLink> */}
                   <NavLink
                     color="inherit"
                     to="/skills"

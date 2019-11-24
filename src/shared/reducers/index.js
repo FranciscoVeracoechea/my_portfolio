@@ -8,6 +8,7 @@ import auth from './authReducer';
 import interest from './interestReducer';
 import file from './fileReducer';
 import progress from './progressReducer';
+import skills from './skillReducer';
 
 
 export default history => combineReducers({
@@ -18,4 +19,5 @@ export default history => combineReducers({
   interest,
   file,
   progress,
+  skills,
 });

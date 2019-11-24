@@ -7,7 +7,7 @@ import {
   of, iif,
 } from 'rxjs';
 // request helper
-import request, { PROGRESS } from '../utils/Request';
+import request from '../utils/Request';
 // actions
 import {
   actionTypes,
@@ -49,9 +49,8 @@ export const sendFileEpic = action$ => action$.pipe(
     body: action.payload,
     withProgress: true,
   }).pipe(
-    switchMap(data => iif(
-      () => data.type === PROGRESS,
-      of(data.progressEvent).pipe(
+    switchMap(data => data.matchWith({
+      ProgressEvent: ({ progressEvent }) => of(progressEvent).pipe(
         map(({ loaded, total }) => Math.ceil((loaded * 100) / total)),
         mergeMap(value => iif(
           () => value >= 1 && value <= 100,
@@ -59,14 +58,14 @@ export const sendFileEpic = action$ => action$.pipe(
           of(updateProgress(value))
         )),
       ),
-      of({
+      Response: ({ response }) => of({
         type: actionTypes.sendFileSuccess,
-        payload: data.response,
+        payload: response,
       }).pipe(
         delay(1000),
         mergeMap(a => of(a, setShowProgress(false)))
       ),
-    )),
+    })),
     catchError(error => of({
       type: actionTypes.sendFileError,
       payload: error,
