@@ -1,11 +1,27 @@
 import React, { useState } from 'react';
 import { useObservable } from 'rxjs-hooks';
+import Result from 'folktale/result';
 import {
   Fade,
 } from '@material-ui/core';
 import {
-  delay, tap,
+  delay, tap, filter,
 } from 'rxjs/operators';
+
+
+const setState = (setLocation, setShow) => ([location, path]) => {
+  const validation = path.includes('/dashboard')
+    ? Result.Ok(location)
+    : Result.Error(false);
+
+  validation.matchWith({
+    Ok: ({ value }) => {
+      setLocation(value);
+      setShow(true);
+    },
+    Error: ({ value }) => setShow(value),
+  });
+};
 
 
 const AnimatedView = ({ children, location }) => {
@@ -13,23 +29,15 @@ const AnimatedView = ({ children, location }) => {
   const [show, setShow] = useState(false);
   const [newLocation, setLocation] = useState(location);
 
-  useObservable(inputs$ => (
-    !location.pathname.includes('/dashboard')
-      ? inputs$.pipe(
-        tap(() => setShow(false)),
-        delay(timeout + 10),
-        tap(([l]) => {
-          setLocation(l);
-          setShow(true);
-        }),
-      )
-      : inputs$.pipe(
-        tap(([l]) => {
-          setLocation(l);
-          setShow(true);
-        }),
-      )
-  ), false, [location]);
+  useObservable(inputs$ => inputs$.pipe(
+    tap(setState(setLocation, setShow)),
+    filter(([_, path]) => !path.includes('/dashboard')),
+    delay(timeout + 10),
+    tap(([l]) => {
+      setLocation(l);
+      setShow(true);
+    }),
+  ), false, [location, location.pathname]);
 
   return (
     <Fade timeout={timeout} in={show} mountOnEnter unmountOnExit>

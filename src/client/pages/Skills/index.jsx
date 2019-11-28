@@ -14,6 +14,7 @@ import { isFirstRender } from '../../../shared/utils/functional';
 // helpers
 const findByCategory = (data, category) => data.data.find(d => d.category === category);
 const technical_description = 'technical_description';
+const picture = 'picture';
 
 const Skills = ({
   file, fetchFiles, fetchCanceled, data, fetchData,
@@ -21,7 +22,7 @@ const Skills = ({
   const classes = useStyles();
   const sliderWrapper = useRef(null);
   useEffect(() => {
-    if (isFirstRender(file.data)) fetchFiles();
+    if (!file.data.find(x => x.kind === picture)) fetchFiles();
     if (isFirstRender(data.data)) fetchData();
     return () => fetchCanceled();
   }, []);

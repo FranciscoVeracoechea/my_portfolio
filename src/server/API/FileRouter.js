@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import requireAuthentication from '../middlewares/requireAuthentication';
 import * as FileController from '../controllers/FileController';
-import FileValidations from '../Validations/FileValidations';
+import FileValidations from '../validations/FileValidations';
 
 
 export default () => {

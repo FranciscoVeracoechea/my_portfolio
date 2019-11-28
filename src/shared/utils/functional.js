@@ -91,13 +91,9 @@ export const emailValidator = (email) => {
 };
 
 export const newError = error => (params = {}) => {
-  let e;
-  if (error instanceof Error) e = error;
-  else e = new Error(error);
-  const { message, stack } = e;
-  return {
-    ...params, message, stack,
-  };
+  const e = (error instanceof Error) ? error : new Error(error);
+  Object.entries(params).forEach(([key, value]) => { e[key] = value; });
+  return e;
 };
 
 export const futurize = Future => fn => (...args) => new Future(

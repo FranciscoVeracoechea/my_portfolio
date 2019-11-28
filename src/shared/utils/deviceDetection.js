@@ -1,6 +1,8 @@
 // dependencies
 import { fromEvent } from 'rxjs';
-import { throttleTime, map, tap, mapTo } from 'rxjs/operators';
+import {
+  throttleTime, map, mapTo,
+} from 'rxjs/operators';
 // action
 import { resolutionKind } from '../actions/deviceActions';
 import { match, compose } from './functional';
@@ -46,5 +48,4 @@ export const resolution$ = fromEvent(window, 'resize').pipe(
   throttleTime(250),
   mapTo(getResolutionKind()),
   map(resolutionKind),
-  tap(console.log),
 );

@@ -17,7 +17,7 @@ export const show = () => (req, res, next) => Technology.findById(req.params.id)
   }))
   .catch(next);
 
-export const create = () => (req, res, next) => Technology.create(req.body)
+export const create = () => (req, res, next) => Technology.create({ ...req.body, technologies: [] })
   .then(data => res.status(200).json({
     message: 'Sucessfull Request',
     data,
@@ -37,6 +37,17 @@ export const addTechnology = () => (req, res, next) => Technology.findById(req.p
 export const deleteTechnology = () => (req, res, next) => Technology.findById(req.params.categoryId)
   .then((category) => {
     category.technologies.id(req.params.technologyId).remove();
+    res.status(200).json({
+      message: 'Sucessfull Request, technology removed',
+    });
+  })
+  .catch(next);
+
+export const updateTechnology = () => (
+  req, res, next,
+) => Technology.findById(req.params.categoryId)
+  .then((category) => {
+    console.log(category.technologies.id(req.params.technologyId).update);
     res.status(200).json({
       message: 'Sucessfull Request, technology removed',
     });

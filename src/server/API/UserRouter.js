@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import requireAuthentication from '../middlewares/requireAuthentication';
-import UserValidatior from '../Validations/UserValidatior';
+import UserValidatior from '../validations/UserValidatior';
 import * as UserController from '../controllers/UserCotroller';
 import deletePreviuosSession from '../middlewares/deletePreviuosSession';
 
