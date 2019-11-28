@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import requireAuthentication from '../middlewares/requireAuthentication';
 import * as DataController from '../controllers/DataController';
-import DataValidations from '../Validations/DataValidations';
+import DataValidations from '../validations/DataValidations';
 
 
 export default () => {

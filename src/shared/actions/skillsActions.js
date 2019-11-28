@@ -15,10 +15,19 @@ export const actionTypes = {
   createCategory: 'CREATE_CATEGORY',
   createCategorySuccess: 'CREATE_CATEGORY/FULFILLED',
   createCategoryRejected: 'CREATE_CATEGORY/REJECTED',
+  // DELETE
+  deleteCategory: 'DELETE_CATEGORY',
+  deleteCategoriPending: 'DELETE_CATEGORY/PENDING',
+  deleteCategorySuccess: 'DELETE_CATEGORY/FULFILLED',
+  deleteCategoryRejected: 'DELETE_CATEGORY/REJECTED',
 };
 // read
 export const fetchTechnologies = () => ({
   type: actionTypes.fetchTechnologies,
+});
+
+export const fetchTechnologiesCanceled = () => ({
+  type: actionTypes.fetchTechnologiesCanceled,
 });
 
 export const fetchTechnologiesRejected = ({ response }) => ({
@@ -34,4 +43,19 @@ export const createCategory = body => ({
     method: 'POST',
     body,
   }).pipe(map(({ response }) => response)).toPromise(),
+});
+
+// delete
+export const deleteCategory = (id, index) => ({
+  type: actionTypes.deleteCategory,
+  payload: {
+    promise: request({
+      url: `/api/technology/${id}`,
+      method: 'DELETE',
+    }).pipe(map(({ response }) => response)).toPromise(),
+    data: {
+      index,
+      id,
+    },
+  },
 });

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import TechTabs from './Tabs';
 // actions
 import {
-  createCategory,
+  createCategory, deleteCategory,
 } from '../../../shared/actions/skillsActions';
 
 
@@ -12,6 +12,7 @@ const mapStateToProps = () => ({});
 
 const mapDispatchToProps = {
   createCategory,
+  deleteCategory,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TechTabs);

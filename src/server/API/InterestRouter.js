@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import requireAuthentication from '../middlewares/requireAuthentication';
 import * as InterestController from '../controllers/InterestController';
-import InterestValidations from '../Validations/InterestValidations';
+import InterestValidations from '../validations/InterestValidations';
 
 
 export default () => {

@@ -22,17 +22,26 @@ const Table = ({ data, styles: classes }) => (
   </>
 );
 
+const Errors = ({ error }) => (
+  <>
+    <Typography color="error"><b>{error.message || 'Ups! An Error have occur'}</b></Typography>
+    <Typography color="error">{error.message}</Typography>
+    <Typography color="error">{error.response.message}</Typography>
+    <Typography color="error">{error.response.errmsg}</Typography>
+  </>
+);
+
 const Technologies = ({
   skills,
   fetchTechnologies,
-  fetchTechnologiesRejected,
+  fetchTechnologiesCanceled,
 }) => {
   const [state] = useUnionType(skills);
 
   useEffect(
     () => Result.fromNullable(!skills.isLoading)
       .map(fetchTechnologies)
-      .chain(() => fetchTechnologiesRejected),
+      .chain(() => fetchTechnologiesCanceled),
     []
   );
 
@@ -40,10 +49,7 @@ const Technologies = ({
     Loading: () => <Loader size="4em" />,
     Error: ({ data, error }) => (
       <>
-        <Typography color="error"><b>{error.message || 'Ups! An Error have occur'}</b></Typography>
-        <Typography color="error">{error.message}</Typography>
-        <Typography color="error">{error.response.message}</Typography>
-        <Typography color="error">{error.response.errmsg}</Typography>
+        <Errors error={error} />
         <Table data={data} styles={styles} />
       </>
     ),

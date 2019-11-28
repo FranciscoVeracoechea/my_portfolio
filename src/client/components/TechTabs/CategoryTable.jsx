@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import MaterialTable from 'material-table';
 // helper
 import columns from './columns';
@@ -7,9 +7,7 @@ import columns from './columns';
 const CategoryTable = ({
   data,
   create,
-  // delete,
-  // updateInterest,
-  // deleteInterest,
+  remove,
 }) => (
   <MaterialTable
     title="Categories"
@@ -17,9 +15,21 @@ const CategoryTable = ({
     data={data.map(d => Object.assign({}, d))}
     editable={{
       onRowAdd: newData => create(newData),
-      // onRowUpdate: (newData, oldData) => updateInterest(newData, data.findIndex(e => e._id === oldData._id)),
-      // onRowDelete: oldData => deleteInterest(oldData._id, data.findIndex(e => e._id === oldData._id)),
+      onRowDelete: oldData => remove(oldData._id, data.findIndex(e => e._id === oldData._id)),
+      // onRowUpdate: (newData, oldData) => update(newData, data.findIndex(e => e._id === oldData._id)),
     }}
+    actions={[
+      {
+        icon: 'playlist_add',
+        tooltip: 'Add new skill',
+        onClick: console.log,
+      },
+      {
+        icon: 'list',
+        tooltip: 'Skills',
+        onClick: console.log,
+      },
+    ]}
   />
 );
 

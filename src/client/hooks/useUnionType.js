@@ -1,6 +1,6 @@
 // dependencies
 import { useState, useEffect } from 'react';
-import { union, derivations } from 'folktale/adt/union';
+import { union } from 'folktale/adt/union';
 import Result from 'folktale/result';
 
 
@@ -11,10 +11,7 @@ export const State = union('State', {
   Loading() { return {}; },
   Error(error, data) { return { error, data }; },
   Success(data) { return { data }; },
-}).derive(
-  derivations.equality,
-  derivations.debugRepresentation
-);
+});
 
 export const useUnionType = ({ isLoading, data, error }) => {
   const [state, setState] = useState(State.Default());

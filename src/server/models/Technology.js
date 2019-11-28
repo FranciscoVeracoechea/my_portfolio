@@ -25,7 +25,9 @@ export const TechnologyCategorySchema = new Schema({
   technologies: [TechnologySchema],
 }, options);
 
+// * gettters
 function getDiffForHumans() { return humanize(this.createdAt); }
+function getSkillCount() { return this.technologies.length; }
 
 TechnologySchema.virtual('diffForHumans').get(getDiffForHumans);
 TechnologySchema.virtual('categoryName').get(function categoryName() {
@@ -33,5 +35,6 @@ TechnologySchema.virtual('categoryName').get(function categoryName() {
 });
 
 TechnologyCategorySchema.virtual('diffForHumans').get(getDiffForHumans);
+TechnologyCategorySchema.virtual('skillCount').get(getSkillCount);
 
 export default mongoose.model('Technologies', TechnologyCategorySchema);

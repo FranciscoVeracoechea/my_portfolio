@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import requireAuthentication from '../middlewares/requireAuthentication';
 import * as TechnologiesController from '../controllers/TechnologiesController';
-import TechnologyValidations from '../Validations/TechnologyValidations';
+import TechnologyValidations from '../validations/TechnologyValidations';
 
 
 export default () => {

@@ -9,6 +9,11 @@ const initialState = {
   data: [],
 };
 
+const setErrors = (state, payload) => () => ({
+  ...state,
+  error: payload.errors || payload.message || payload.error.message,
+});
+
 
 export default (state = initialState, { type, payload }) => switchCase({
   [actionTypes.fetchTechnologies]: () => ({
@@ -21,10 +26,7 @@ export default (state = initialState, { type, payload }) => switchCase({
     data: payload.data,
   }),
   [actionTypes.fetchTechnologiesCanceled]: initialState,
-  [actionTypes.fetchTechnologiesRejected]: () => ({
-    ...state,
-    error: payload.errors || payload.message || payload.error.message,
-  }),
+  [actionTypes.fetchTechnologiesRejected]: setErrors(state, payload),
   [actionTypes.createCategorySuccess]: () => ({
     ...state,
     error: null,
@@ -36,4 +38,12 @@ export default (state = initialState, { type, payload }) => switchCase({
     isLoading: false,
     error: payload,
   }),
+  [actionTypes.deleteCategoriPending]: () => ({
+    ...state,
+    data: [
+      ...state.data.slice(0, payload.index),
+      ...state.data.slice(payload.index + 1),
+    ],
+  }),
+  [actionTypes.deleteCategoryRejected]: setErrors(state, payload),
 })(state)(type);

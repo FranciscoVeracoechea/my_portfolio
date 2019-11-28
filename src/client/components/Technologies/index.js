@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Technologies from './index.jsx';
 // actions
 import {
-  fetchTechnologies, fetchTechnologiesRejected, createCategory,
+  fetchTechnologies, fetchTechnologiesCanceled,
 } from '../../../shared/actions/skillsActions';
 
 
@@ -14,8 +14,7 @@ const mapStateToProps = ({ skills }) => ({
 
 const mapDispatchToProps = {
   fetchTechnologies,
-  fetchTechnologiesRejected,
-  createCategory,
+  fetchTechnologiesCanceled,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Technologies);

@@ -46,6 +46,7 @@ const useStyles = makeStyles(theme => ({
 
 const TabView = ({
   createCategory,
+  deleteCategory,
   data,
 }) => {
   const classes = useStyles();
@@ -66,6 +67,7 @@ const TabView = ({
       <TabPanel value={value} index={0}>
         <CategoryTable
           create={createCategory}
+          remove={deleteCategory}
           data={data}
         />
       </TabPanel>

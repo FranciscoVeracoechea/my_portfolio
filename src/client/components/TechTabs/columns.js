@@ -2,6 +2,7 @@ export default {
   category: [
     { title: 'Name', field: 'name' },
     { title: 'Order', field: 'order' },
+    { title: 'Number of skills', field: 'skillCount' },
     {
       title: 'Created At',
       field: 'diffForHumans',
