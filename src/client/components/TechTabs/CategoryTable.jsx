@@ -7,7 +7,9 @@ import columns from './columns';
 const CategoryTable = ({
   data,
   create,
+  update,
   remove,
+  onChangeTab,
 }) => (
   <MaterialTable
     title="Categories"
@@ -16,18 +18,15 @@ const CategoryTable = ({
     editable={{
       onRowAdd: newData => create(newData),
       onRowDelete: oldData => remove(oldData._id, data.findIndex(e => e._id === oldData._id)),
-      // onRowUpdate: (newData, oldData) => update(newData, data.findIndex(e => e._id === oldData._id)),
+      onRowUpdate: (newData, oldData) => update(data.findIndex(e => e._id === oldData._id), newData),
     }}
     actions={[
       {
-        icon: 'playlist_add',
-        tooltip: 'Add new skill',
-        onClick: console.log,
-      },
-      {
         icon: 'list',
         tooltip: 'Skills',
-        onClick: console.log,
+        onClick: (e, d) => {
+          onChangeTab(1, d._id);
+        },
       },
     ]}
   />

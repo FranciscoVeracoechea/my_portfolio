@@ -5,6 +5,7 @@ import {
 } from '@material-ui/core';
 // component
 import CategoryTable from './CategoryTable';
+import SkillTable from './SkillTable';
 
 
 const TabPanel = (props) => {
@@ -45,14 +46,17 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const TabView = ({
+  data,
   createCategory,
   deleteCategory,
-  data,
+  updateCategory,
+  selecteCategory,
+  selectedCategoryId,
 }) => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (_, newValue) => {
     setValue(newValue);
   };
 
@@ -61,18 +65,26 @@ const TabView = ({
       <AppBar position="static">
         <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
           <Tab label="Categories" {...a11yProps(0)} />
-          <Tab label="Skills" {...a11yProps(1)} />
+          <Tab label="Skills" {...a11yProps(1)} disabled={!selectedCategoryId} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
         <CategoryTable
           create={createCategory}
           remove={deleteCategory}
+          update={updateCategory}
+          onChangeTab={(index, id) => {
+            selecteCategory(id);
+            handleChange(null, index);
+          }}
           data={data}
         />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+        <SkillTable
+          data={data}
+          selectedCategoryId={selectedCategoryId}
+        />
       </TabPanel>
     </div>
   );

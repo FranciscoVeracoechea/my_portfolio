@@ -7,11 +7,13 @@ const initialState = {
   isLoading: false,
   error: null,
   data: [],
+  selectedCategoryId: '',
 };
 
-const setErrors = (state, payload) => () => ({
+const setError = (state, error) => () => ({
   ...state,
-  error: payload.errors || payload.message || payload.error.message,
+  isLoading: false,
+  error,
 });
 
 
@@ -26,18 +28,14 @@ export default (state = initialState, { type, payload }) => switchCase({
     data: payload.data,
   }),
   [actionTypes.fetchTechnologiesCanceled]: initialState,
-  [actionTypes.fetchTechnologiesRejected]: setErrors(state, payload),
+  [actionTypes.fetchTechnologiesRejected]: setError(state, payload),
   [actionTypes.createCategorySuccess]: () => ({
     ...state,
     error: null,
     isLoading: false,
     data: [...state.data, payload.data],
   }),
-  [actionTypes.createCategoryRejected]: () => ({
-    ...state,
-    isLoading: false,
-    error: payload,
-  }),
+  [actionTypes.createCategoryRejected]: setError(state, payload),
   [actionTypes.deleteCategoriPending]: () => ({
     ...state,
     data: [
@@ -45,5 +43,18 @@ export default (state = initialState, { type, payload }) => switchCase({
       ...state.data.slice(payload.index + 1),
     ],
   }),
-  [actionTypes.deleteCategoryRejected]: setErrors(state, payload),
+  [actionTypes.updateCategoryPending]: () => ({
+    ...state,
+    data: [
+      ...state.data.slice(0, payload.index),
+      payload.data,
+      ...state.data.slice(payload.index + 1),
+    ],
+  }),
+  [actionTypes.updateCategoryRejected]: setError(state, payload),
+  [actionTypes.deleteCategoryRejected]: setError(state, payload),
+  [actionTypes.setSelectedCategory]: () => ({
+    ...state,
+    selectedCategoryId: payload.id,
+  }),
 })(state)(type);

@@ -1,35 +1,46 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import MaterialTable from 'material-table';
+import Maybe, { Just, Nothing } from 'folktale/maybe';
 // helper
 import columns from './columns';
-import { isFirstRender } from '../../../shared/utils/functional';
 
 
-const AboutMe = ({
-  interest: { data },
-  fetchInterest,
-  createInterest,
-  updateInterest,
-  deleteInterest,
+const SkillTable = ({
+  data,
+  selectedCategoryId,
 }) => {
+  const [category, setCategory] = useState(Nothing());
+  const template = {
+    name: '',
+    technologies: [],
+  };
+  // helpers
+  const getSelectedSkills = (categories = Array, selectedId = String) => categories.find(
+    x => x._id === selectedId
+  );
+
   useEffect(() => {
-    if (isFirstRender(data)) fetchInterest();
-  }, []);
+    Maybe.of(selectedCategoryId)
+      .chain(id => (id ? Just(id) : Nothing()))
+      .chain(id => Maybe.fromNullable(getSelectedSkills(data, id)))
+      .fold(
+        () => setCategory(Nothing()),
+        x => setCategory(Just(x))
+      );
+  }, [data, selectedCategoryId]);
 
   return (
-    <div>
-      <MaterialTable
-        title="Interests"
-        columns={columns.skills}
-        data={data.map(d => Object.assign({}, d))}
-        editable={{
-          onRowAdd: newData => createInterest(newData),
-          onRowUpdate: (newData, oldData) => updateInterest(newData, data.findIndex(e => e._id === oldData._id)),
-          onRowDelete: oldData => deleteInterest(oldData._id, data.findIndex(e => e._id === oldData._id)),
-        }}
-      />
-    </div>
+    <MaterialTable
+      title={`Category: ${category.getOrElse(template).name}`}
+      columns={columns.skills}
+      data={category.getOrElse(template).technologies.map(d => Object.assign({}, d))}
+      editable={{
+        // onRowAdd: newData => createInterest(newData),
+        // onRowUpdate: (newData, oldData) => updateInterest(newData, data.findIndex(e => e._id === oldData._id)),
+        // onRowDelete: oldData => deleteInterest(oldData._id, data.findIndex(e => e._id === oldData._id)),
+      }}
+    />
   );
 };
 
-export default AboutMe;
+export default SkillTable;
