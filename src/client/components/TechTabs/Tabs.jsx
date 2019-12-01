@@ -52,6 +52,7 @@ const TabView = ({
   updateCategory,
   selecteCategory,
   selectedCategoryId,
+  createSkill,
 }) => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
@@ -84,6 +85,7 @@ const TabView = ({
         <SkillTable
           data={data}
           selectedCategoryId={selectedCategoryId}
+          create={createSkill}
         />
       </TabPanel>
     </div>

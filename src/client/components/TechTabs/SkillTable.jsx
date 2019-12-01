@@ -8,6 +8,7 @@ import columns from './columns';
 const SkillTable = ({
   data,
   selectedCategoryId,
+  create,
 }) => {
   const [category, setCategory] = useState(Nothing());
   const template = {
@@ -15,7 +16,7 @@ const SkillTable = ({
     technologies: [],
   };
   // helpers
-  const getSelectedSkills = (categories = Array, selectedId = String) => categories.find(
+  const getSelectedSkills = (categories, selectedId) => categories.find(
     x => x._id === selectedId
   );
 
@@ -35,7 +36,7 @@ const SkillTable = ({
       columns={columns.skills}
       data={category.getOrElse(template).technologies.map(d => Object.assign({}, d))}
       editable={{
-        // onRowAdd: newData => createInterest(newData),
+        onRowAdd: newData => create(selectedCategoryId, newData),
         // onRowUpdate: (newData, oldData) => updateInterest(newData, data.findIndex(e => e._id === oldData._id)),
         // onRowDelete: oldData => deleteInterest(oldData._id, data.findIndex(e => e._id === oldData._id)),
       }}

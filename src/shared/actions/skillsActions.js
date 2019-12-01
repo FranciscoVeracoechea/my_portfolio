@@ -10,6 +10,9 @@ export const actionTypes = {
   createCategory: 'CREATE_CATEGORY',
   createCategorySuccess: 'CREATE_CATEGORY/FULFILLED',
   createCategoryRejected: 'CREATE_CATEGORY/REJECTED',
+  createSkill: 'CREATE_NEW_SKILL',
+  createSkillFulfilled: 'CREATE_NEW_SKILL/FULFILLED',
+  createSkillRejected: 'CREATE_NEW_SKILL/REJECTED',
   // READ
   fetchTechnologies: 'FETCH_TECHNOLOGIES',
   fetchTechnologiesSuccess: 'FETCH_TECHNOLOGIES_SUCCESS',
@@ -33,6 +36,15 @@ export const createCategory = body => ({
   type: actionTypes.createCategory,
   payload: request({
     url: '/api/technology',
+    method: 'POST',
+    body,
+  }).pipe(map(({ response }) => response)).toPromise(),
+});
+
+export const createSkill = (categoryId, body) => ({
+  type: actionTypes.createSkill,
+  payload: request({
+    url: `/api/technology/${categoryId}`,
     method: 'POST',
     body,
   }).pipe(map(({ response }) => response)).toPromise(),

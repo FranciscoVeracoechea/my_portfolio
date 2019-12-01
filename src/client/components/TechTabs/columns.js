@@ -15,7 +15,7 @@ export default {
   ],
   skills: [
     { title: 'Name', field: 'name' },
-    { title: 'Category', field: 'categoryName' },
+    { title: 'Category', field: 'categoryName', editable: 'never' },
     { title: 'Link', field: 'link' },
     { title: 'Level', field: 'level' },
     {

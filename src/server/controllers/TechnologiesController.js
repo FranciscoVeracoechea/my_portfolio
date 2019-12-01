@@ -27,11 +27,13 @@ export const create = () => (req, res, next) => Technology.create({ ...req.body,
 export const addTechnology = () => (req, res, next) => Technology.findById(req.params.id)
   .then((category) => {
     category.technologies.push(req.body);
-    res.status(200).json({
-      message: 'Sucessfull Request, technology added',
-      data: category.technologies[category.technologies.length - 1],
-    });
+    return category.save();
   })
+  .then(category => res.status(200).json({
+    message: 'Sucessfull Request, technology added',
+    data: category.technologies[category.technologies.length - 1],
+    categoryId: req.params.id,
+  }))
   .catch(next);
 
 export const deleteTechnology = () => (req, res, next) => Technology.findById(req.params.categoryId)
