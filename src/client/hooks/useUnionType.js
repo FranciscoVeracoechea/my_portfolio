@@ -1,10 +1,11 @@
 // dependencies
 import { useState, useEffect } from 'react';
 import { union } from 'folktale/adt/union';
-import Result from 'folktale/result';
+import Sequence from '../../shared/Identities/Sequence';
 
 
-const { Ok, Error } = Result;
+const { Next, Done } = Sequence;
+
 
 export const State = union('State', {
   Default() { return {}; },
@@ -18,15 +19,11 @@ export const useUnionType = ({ isLoading, data, error }) => {
 
   useEffect(
     () => {
-      const fn = Result.of(({ values, type }) => setState(State[type](...values)));
-      Result.of([isLoading, error, data])
-        .chain(([x, y, z]) => (x ? Error({ values: [x], type: 'Loading' }) : Ok([y, z])))
-        .chain(([x, y]) => (x ? Error({ values: [x, y], type: 'Error' }) : Ok(y)))
-        .chain(x => Error({ values: [x], type: 'Success' }))
-        .fold(
-          x => fn.apply(Ok(x)),
-          x => fn.apply(Ok(x))
-        );
+      Sequence.of([isLoading, error, data])
+        .chain(([x, y, z]) => (x ? Done(State.Loading(x)) : Next([y, z])))
+        .chain(([x, y]) => (x ? Done(State.Error(x, y)) : Next(y)))
+        .chain(x => Done(State.Success(x)))
+        .finally(setState);
     },
     [isLoading, error, data]
   );

@@ -23,16 +23,11 @@ export default () => {
   };
 
   passport.use(
-    new JwtStrategy(options, (payload, done) => {
-      User.findById(payload._id)
-        .then((user) => {
-          if (user) {
-            return done(null, user);
-          }
-          return done(null, false);
-        })
-        .catch(error => done(error, false));
-    })
+    new JwtStrategy(options, (payload, done) => User.findById(payload._id)
+      .then(user => (
+        user ? done(null, user) : done(null, false)
+      ))
+      .catch(error => done(error, false)))
   );
   return passport;
 };

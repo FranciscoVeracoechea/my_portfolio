@@ -2,8 +2,14 @@
 import jwt from 'jsonwebtoken';
 // Models
 import User from '../models/User';
-// utils
-import { newError } from '../../shared/utils/functional';
+// Excceptions
+import {
+  catchDatabaseExcception,
+  DatabaseExcception,
+  InternalServerErrorException,
+  NotFoundException,
+  AuthenticationException,
+} from '../../shared/Identities/Excception';
 
 
 const {
@@ -11,10 +17,26 @@ const {
 } = process.env;
 const TOKEN = 'TOKEN';
 const COOKIE = 'COOKIE';
-const jwtOptions = { expiresIn: TOKEN_LIFE, audience: APP_URL, issuer: APP_TITLE };
+const JWT_OPTIONS = { expiresIn: TOKEN_LIFE, audience: APP_URL, issuer: APP_TITLE };
+const TOKEN_ERROR_MSG = 'Error signing token';
 
 // helper methods
 const getSafeData = ({ salt: _s, password: _p, ...data }) => data;
+
+const signToken = (data, res, next, successMsg) => jwt.sign(
+  { username: data.username, _id: data._id, email: data.email },
+  SECRET,
+  JWT_OPTIONS,
+  (error, token) => (
+    error
+      ? next(InternalServerErrorException(new Error(TOKEN_ERROR_MSG)))
+      : res.status(200).json({
+        message: successMsg,
+        data: { user: getSafeData(data) },
+        token: `Bearer ${token}`,
+      })
+  )
+);
 
 
 // response methods
@@ -23,7 +45,7 @@ export const index = () => (req, res, next) => User.find({}, '-salt -password')
     message: 'Sucessfull Request',
     data,
   }))
-  .catch(next);
+  .catch(catchDatabaseExcception(next));
 
 export const show = () => (req, res, next) => User.findOne(
   { username: req.params.username },
@@ -33,7 +55,7 @@ export const show = () => (req, res, next) => User.findOne(
     message: 'Sucessfull Request',
     data,
   }))
-  .catch(next);
+  .catch(catchDatabaseExcception(next));
 
 // response methods
 export const userInfo = () => (req, res) => res.status(200)
@@ -53,19 +75,7 @@ export const register = () => (req, res, next) => {
     fullname,
   }).then(({ _doc: data }) => {
     if (grantType === TOKEN) {
-      jwt.sign(
-        { username: data.username, _id: data._id, email: data.email },
-        SECRET,
-        jwtOptions,
-        (error, token) => {
-          if (error) next(newError('Error signing token')({ status: 500, error }));
-          res.status(200).json({
-            message: 'User created in successfully!',
-            data: { user: getSafeData(data) },
-            token: `Bearer ${token}`,
-          });
-        }
-      );
+      signToken(data, res, next, 'User registered successfully!');
     } else if (grantType === COOKIE) {
       req.session.isAuthenticated = true;
       req.session.user = {
@@ -79,32 +89,22 @@ export const register = () => (req, res, next) => {
       });
     }
   })
-    .catch(next);
+    .catch(catchDatabaseExcception(next));
 };
 
 export const login = () => (req, res, next) => {
   const {
     email, password, grantType,
   } = req.body;
+  const notFound = 'Account Not Found';
+  const invalid = 'Invalid Credentials';
   User.findOne({ email })
     .then((user) => {
-      if (!user) return next(newError('Account Not Found')({ status: 404 }));
+      if (!user) return next(NotFoundException(new Error(notFound), notFound));
       if (user.checkPassword(password)) {
         const { _doc: data } = user;
         if (grantType === TOKEN) {
-          jwt.sign(
-            { username: data.username, _id: data._id, email: data.email },
-            SECRET,
-            jwtOptions,
-            (error, token) => {
-              if (error) next(newError('Error signing token')({ status: 500, error }));
-              res.status(200).json({
-                message: 'User created in successfully!',
-                data: { user: getSafeData(data) },
-                token: `Bearer ${token}`,
-              });
-            }
-          );
+          signToken(data, res, next, 'User logged in successfully!');
         } else if (grantType === COOKIE) {
           req.session.isAuthenticated = true;
           req.session.user = {
@@ -118,10 +118,10 @@ export const login = () => (req, res, next) => {
           });
         }
       } else {
-        next(newError('Invalid Credentials')({ status: 401 }));
+        next(AuthenticationException(new Error(invalid), invalid));
       }
     })
-    .catch(next);
+    .catch(catchDatabaseExcception(next));
 };
 
 export const logout = () => (req, res) => {
@@ -140,11 +140,12 @@ export const update = () => (req, res, next) => User.findByIdAndUpdate(
     fullname: req.body.fullname,
   },
   { new: true },
-  (err, data) => {
-    if (err) return next(err);
-    res.status(200).json({
-      message: 'Sucessfull Request',
-      data,
-    });
-  },
+  (err, data) => (
+    err
+      ? next(DatabaseExcception(err))
+      : res.status(200).json({
+        message: 'Sucessfull Request',
+        data,
+      })
+  )
 );

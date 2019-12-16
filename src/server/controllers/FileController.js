@@ -1,6 +1,8 @@
 import fs from 'fs';
 // Model
 import File from '../models/File';
+// Excceptions
+import { catchDatabaseExcception, DatabaseExcception } from '../../shared/Identities/Excception';
 
 
 const url = '/static/uploads/';
@@ -11,21 +13,21 @@ export const index = () => (req, res, next) => File.find({})
     message: 'Sucessfull Request',
     data,
   }))
-  .catch(next);
+  .catch(catchDatabaseExcception(next));
 
 export const show = () => (req, res, next) => File.findById(req.params.id)
   .then(data => res.status(200).json({
     message: 'Sucessfull Request',
     data,
   }))
-  .catch(next);
+  .catch(catchDatabaseExcception(next));
 
 export const showByKind = () => (req, res, next) => File.find({ kind: req.params.kind })
   .then(data => res.status(200).json({
     message: 'Sucessfull Request',
     data,
   }))
-  .catch(next);
+  .catch(catchDatabaseExcception(next));
 
 
 export const create = () => (req, res, next) => File.create({
@@ -38,18 +40,20 @@ export const create = () => (req, res, next) => File.create({
     message: 'File uploaded successfully',
     data,
   }))
-  .catch(next);
+  .catch(catchDatabaseExcception(next));
 
 export const destroy = () => (req, res, next) => File.findByIdAndDelete(
   req.params.id,
-  (error, file) => {
-    if (error) return next(error);
-    fs.unlink(file.path, (err) => {
-      if (err) return next(err);
-      res.status(200).json({
-        message: 'File deleted sucessfuly',
-        deletedId: req.params.id,
-      });
-    });
-  }
+  (error, file) => (
+    error
+      ? next(DatabaseExcception(error))
+      : fs.unlink(file.path, err => (
+        err
+          ? next(DatabaseExcception(err))
+          : res.status(200).json({
+            message: 'File deleted sucessfuly',
+            deletedId: req.params.id,
+          })
+      ))
+  )
 );
