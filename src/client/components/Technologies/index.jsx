@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import {
   Typography,
 } from '@material-ui/core';
-import Result from 'folktale/result';
 // components
 import Tabs from '../TechTabs';
 import Loader from '../Loader';
@@ -11,6 +10,8 @@ import Loader from '../Loader';
 import styles from '../../assets/sass/Files.scss';
 // hooks
 import { useUnionType } from '../../hooks/useUnionType';
+// utils
+import Sequence from '../../../shared/Identities/Sequence';
 
 
 const Table = ({ data, styles: classes }) => (
@@ -39,7 +40,7 @@ const Technologies = ({
   const [state] = useUnionType(skills);
 
   useEffect(
-    () => Result.fromNullable(!skills.isLoading)
+    () => Sequence.fromNullable(!skills.isLoading)
       .map(fetchTechnologies)
       .chain(() => fetchTechnologiesCanceled),
     []

@@ -1,10 +1,4 @@
-// @flow
-import type {
-  $Request, $Response, Middleware, NextFunction,
-} from 'express';
-
-
-export default (): Middleware => (req: $Request, res: $Response, next: NextFunction) => {
+export default () => (req, res, next) => {
   req.url = `${req.url}.gz`;
   res.set('Content-Encoding', 'gzip');
   next();

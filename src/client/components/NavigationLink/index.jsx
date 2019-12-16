@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useCallback } from 'react';
 import { IconButton, makeStyles, Tooltip } from '@material-ui/core';
 import { NavLink } from 'react-router-dom';
 // hooks
@@ -18,12 +18,17 @@ const ForwardNavLink = forwardRef(({ children, ...props }, ref) => (
 ));
 
 const NavigationLink = ({
-  to, title, pdf, ...props
+  to, type, ...props
 }) => {
   const { location: { pathname }, history: { push } } = useRouter();
   const classes = useStyles();
-  if (pdf) {
-    return (
+  const handleOnClick = useCallback((e) => {
+    e.preventDefault();
+    if (pathname !== to) push(to);
+  }, [pathname, push, to]);
+
+  return type.matchWith({
+    PdfLink: ({ title }) => (
       <Tooltip title={title}>
         <li>
           <IconButton
@@ -34,40 +39,31 @@ const NavigationLink = ({
           />
         </li>
       </Tooltip>
-    );
-  }
-  if (!title) {
-    return (
+    ),
+    TooltipLink: ({ title }) => (
+      <Tooltip title={title}>
+        <li>
+          <IconButton
+            {...props}
+            component={ForwardNavLink}
+            onClick={handleOnClick}
+            activeClassName={classes.active}
+            to={to}
+            aria-label={title}
+          />
+        </li>
+      </Tooltip>
+    ),
+    ImageLink: () => (
       <IconButton
         {...props}
         component={ForwardNavLink}
-        onClick={(e) => {
-          e.preventDefault();
-          if (pathname !== to) push(to);
-        }}
+        onClick={handleOnClick}
         activeClassName={classes.active}
         to={to}
-        aria-label={title}
       />
-    );
-  }
-  return (
-    <Tooltip title={title}>
-      <li>
-        <IconButton
-          {...props}
-          component={ForwardNavLink}
-          onClick={(e) => {
-            e.preventDefault();
-            if (pathname !== to) push(to);
-          }}
-          activeClassName={classes.active}
-          to={to}
-          aria-label={title}
-        />
-      </li>
-    </Tooltip>
-  );
+    ),
+  });
 };
 
 export default NavigationLink;

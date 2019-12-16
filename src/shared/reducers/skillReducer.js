@@ -57,4 +57,19 @@ export default (state = initialState, { type, payload }) => switchCase({
     ...state,
     selectedCategoryId: payload.id,
   }),
+  [actionTypes.createSkillFulfilled]: () => ({
+    ...state,
+    isLoading: false,
+    error: null,
+    data: state.data.map(category => (
+      category._id === payload.categoryId
+        ? {
+          ...category,
+          technologies: [...category.technologies, payload.data],
+          skillCount: category.skillCount + 1,
+          categoryName: category.name,
+        }
+        : category
+    )),
+  }),
 })(state)(type);

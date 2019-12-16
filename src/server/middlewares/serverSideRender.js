@@ -5,7 +5,7 @@ import { matchPath, StaticRouter } from 'react-router-dom';
 import { ServerStyleSheets } from '@material-ui/styles';
 import { Provider } from 'react-redux';
 import {
-  isObservable, of, Subject, iif, combineLatest,
+  isObservable, of, Subject, combineLatest,
 } from 'rxjs';
 import isPromise from 'is-promise';
 import {
@@ -44,29 +44,21 @@ const routesStream = ({ req, res, store }) => routes$.pipe(
   scan((acc, current) => [...acc, current], []),
   takeLast(1),
   tap(actions => isArray(actions) && actions.forEach(
-    action => action && dispatch$.next({ store, action, isInitialAction: true })
+    action => action && dispatch$.next({ store, action })
   )),
   mapTo({ req, res, store }),
   defaultIfEmpty({ req, res, store })
 );
 
 dispatch$.pipe(
-  mergeMap(data => iif(
-    () => data.isInitialAction,
-    of(data).pipe(
-      map(({ store: { dispatch }, action }) => ({ dispatch, action }))
-    ),
-    of(data).pipe(
-      map(({ store: { dispatch }, action, req }) => ({ dispatch, action: action(req) }))
-    )
-  ))
+  map(({ store: { dispatch }, action }) => ({ dispatch, action }))
 ).subscribe(({ dispatch, action }) => dispatch(action));
 
 ssr$.pipe(
-  tap(({ store, req }) => dispatch$.next({ store, req, action: setUADevice })),
+  tap(({ store, req }) => dispatch$.next({ store, action: setUADevice(req) })),
   tap(({ store, req }) => (
     req.session && req.session.isAuthenticated && req.session.user
-      ? dispatch$.next({ store, req, action: saveUserFromServer })
+      ? dispatch$.next({ store, action: saveUserFromServer(req) })
       : null
   )),
   mergeMap(ssr => routesStream(ssr)),

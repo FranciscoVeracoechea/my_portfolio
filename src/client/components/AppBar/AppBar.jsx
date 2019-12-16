@@ -8,6 +8,7 @@ import {
 import {
   pluck, delay,
 } from 'rxjs/operators';
+import { union } from 'folktale/adt/union';
 // component
 import HideOnScroll from './HideOnScroll';
 import NavLink from '../NavigationLink';
@@ -17,6 +18,12 @@ import useStyles from './useStyles';
 // helpers
 import request from '../../../shared/utils/Request';
 
+
+const { PdfLink, TooltipLink, ImageLink } = union('NavLink', {
+  PdfLink(title) { return { title }; },
+  TooltipLink(title) { return { title }; },
+  ImageLink() { return {}; },
+});
 
 const AppNavigationBar = ({ user, progress }) => {
   const classes = useStyles();
@@ -51,6 +58,7 @@ const AppNavigationBar = ({ user, progress }) => {
                   color="inherit"
                   aria-label="open drawer"
                   to="/"
+                  type={ImageLink()}
                 >
                   <Avatar src={logo} alt="Francisco Veracoechea" />
                 </NavLink>
@@ -60,7 +68,7 @@ const AppNavigationBar = ({ user, progress }) => {
                 <div className={classes.grow} />
                 <ul className={classes.sectionDesktop}>
                   <NavLink
-                    title="About Me"
+                    type={TooltipLink('About Me')}
                     color="inherit"
                     to="/about-me"
                   >
@@ -72,15 +80,14 @@ const AppNavigationBar = ({ user, progress }) => {
                   <NavLink
                     color="inherit"
                     to="/skills"
-                    title="Technologies and Skills"
+                    type={TooltipLink('Technologies and Skills')}
                   >
                     <FontAwesomeIcon icon={['fab', 'react']} />
                   </NavLink>
                   <NavLink
-                    title="Resume"
                     color="inherit"
                     to={url}
-                    pdf
+                    type={PdfLink('Resume')}
                   >
                     {
                       url
@@ -96,7 +103,7 @@ const AppNavigationBar = ({ user, progress }) => {
                           color="inherit"
                           to="/dashboard"
                           className={classes.tip}
-                          title="Dashboard"
+                          type={TooltipLink('Dashboard')}
                         >
                           <DashboardIcon />
                         </NavLink>

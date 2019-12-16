@@ -1,13 +1,10 @@
 import { validationResult } from 'express-validator';
+import { ValidationException } from '../../shared/Identities/Excception';
 
 
 export default () => (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(422).json({
-      errors: errors.array(),
-      status: 422,
-    });
-  }
-  next();
+  const result = validationResult(req);
+  return !result.isEmpty()
+    ? next(ValidationException(result.errors))
+    : next();
 };
