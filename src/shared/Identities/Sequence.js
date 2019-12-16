@@ -7,6 +7,9 @@ const Done = x => ({
   endWith: _ => Done(x),
   inspect: () => `Sequence.Done(${x})`,
   toString: () => `Sequence.Done(${x})`,
+  isNext: false,
+  isDone: true,
+  type: 'Sequence.Done',
 });
 
 const Next = x => ({
@@ -18,6 +21,9 @@ const Next = x => ({
   finally: () => throw new Error('The Sequence is not Done'),
   inspect: () => `Sequence.Next(${x})`,
   toString: () => `Sequence.Next(${x})`,
+  isNext: true,
+  isDone: false,
+  type: 'Sequence.Next',
 });
 
 export default {
