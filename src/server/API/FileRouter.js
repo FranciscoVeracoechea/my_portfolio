@@ -17,5 +17,5 @@ export default () => {
   openRouter.get('/:id', FileValidations.show, FileController.show());
   openRouter.get('/kind/:kind', FileValidations.showByKind, FileController.showByKind());
 
-  return [protectedRouter, openRouter];
+  return [openRouter, protectedRouter];
 };

@@ -8,19 +8,19 @@ const { Next, Done } = Sequence;
 
 
 export const State = union('State', {
-  Default() { return {}; },
+  Default(initialState) { return initialState; },
   Loading() { return {}; },
   Error(error, data) { return { error, data }; },
   Success(data) { return { data }; },
 });
 
 export const useUnionType = ({ isLoading, data, error }) => {
-  const [state, setState] = useState(State.Default());
+  const [state, setState] = useState(State.Default({ isLoading, data, error }));
 
   useEffect(
     () => {
       Sequence.of([isLoading, error, data])
-        .chain(([x, y, z]) => (x ? Done(State.Loading(x)) : Next([y, z])))
+        .chain(([x, y, z]) => (x ? Done(State.Loading()) : Next([y, z])))
         .chain(([x, y]) => (x ? Done(State.Error(x, y)) : Next(y)))
         .chain(x => Done(State.Success(x)))
         .finally(setState);

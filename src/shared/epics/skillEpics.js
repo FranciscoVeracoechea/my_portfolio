@@ -14,13 +14,13 @@ import {
 
 const fetchDataEpic = action$ => action$.pipe(
   ofType(actionTypes.fetchTechnologies),
-  mergeMap(() => request({
-    url: '/api/technology',
+  mergeMap(({ payload: { populate } }) => request({
+    url: `/api/technology${populate ? '?populate=true' : ''}`,
     method: 'GET',
   }).pipe(
     map(({ response }) => ({
       type: actionTypes.fetchTechnologiesSuccess,
-      payload: response,
+      payload: { ...response, populate },
     })),
     catchError(error => of(fetchTechnologiesRejected(error))),
     takeUntil(action$.pipe(

@@ -8,7 +8,7 @@ const options = {
   toJSON: { virtuals: true },
 };
 
-export const TechnologySchema = new Schema({
+export const SkillSchema = new Schema({
   name: { type: String, required: true, unique: true },
   description: { type: String },
   level: {
@@ -16,25 +16,26 @@ export const TechnologySchema = new Schema({
     min: 1,
     max: 5,
   },
+  image: { type: Schema.Types.ObjectId, ref: 'File' },
   link: { type: String },
 }, options);
 
-export const TechnologyCategorySchema = new Schema({
+export const CategorySchema = new Schema({
   name: { type: String, required: true, unique: true },
   order: { type: Number, unique: true },
-  technologies: [TechnologySchema],
+  technologies: [SkillSchema],
 }, options);
 
 // * gettters
 function getDiffForHumans() { return humanize(this.createdAt); }
 function getSkillCount() { return this.technologies.length; }
 
-TechnologySchema.virtual('diffForHumans').get(getDiffForHumans);
-TechnologySchema.virtual('categoryName').get(function categoryName() {
+SkillSchema.virtual('diffForHumans').get(getDiffForHumans);
+SkillSchema.virtual('categoryName').get(function categoryName() {
   return this.parent().name;
 });
 
-TechnologyCategorySchema.virtual('diffForHumans').get(getDiffForHumans);
-TechnologyCategorySchema.virtual('skillCount').get(getSkillCount);
+CategorySchema.virtual('diffForHumans').get(getDiffForHumans);
+CategorySchema.virtual('skillCount').get(getSkillCount);
 
-export default mongoose.model('Technologies', TechnologyCategorySchema);
+export default mongoose.model('Technologies', CategorySchema);

@@ -1,5 +1,15 @@
+// dependeices
+import { serializeError } from 'serialize-error';
 import { union, derivations } from 'folktale/adt/union';
 
+
+const isDev = process.env.NODE_ENV === 'development';
+
+const setError = e => (
+  isDev
+    ? serializeError(e)
+    : e
+);
 
 const errorMsg = {
   401: 'Unauthenticated',
@@ -15,28 +25,28 @@ const Excception = union('Excception', {
     return {
       message,
       status,
-      error,
+      error: setError(error),
     };
   },
   NotFoundException(error, message = errorMsg[404], status = 404) {
     return {
       message,
       status,
-      error,
+      error: setError(error),
     };
   },
   InternalServerErrorException(error, message = errorMsg[500], status = 500) {
     return {
       message,
       status,
-      error,
+      error: setError(error),
     };
   },
   AuthenticationException(error, message = errorMsg[401], status = 401) {
     return {
       message,
       status,
-      error,
+      error: setError(error),
     };
   },
   ValidationException(errors, message = errorMsg[422], status = 422) {

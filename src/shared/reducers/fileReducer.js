@@ -51,7 +51,10 @@ export default (state = initialState, { type, payload }) => {
       return getErrors(initialState)(payload);
 
     case actionTypes.sendFileCanceled:
-      return initialState;
+      return {
+        ...state,
+        loading: false,
+      };
 
     default:
       return state;

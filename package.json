@@ -20,7 +20,7 @@
     "watch-client": "webpack --watch --config webpack/webpack.client.js",
     "watch-server": "webpack --watch --config webpack/webpack.server.js",
     "delete": "rimraf dist/images & rimraf dist/*.css & rimraf dist/*.gz",
-    "create-secret": "babel-node ./src/server/commands/CreateSecret"
+    "create-keys": "babel-node ./commands/createKeys.js"
   },
   "repository": "https://github.com/FranciscoVeracoechea/react-universal-nightmare",
   "keywords": [],
@@ -133,6 +133,7 @@
     "redux-thunk": "^2.3.0",
     "rxjs": "^6.5.2",
     "rxjs-hooks": "^0.5.1",
+    "serialize-error": "^5.0.0",
     "serialize-javascript": "^2.1.0",
     "serve-favicon": "^2.5.0",
     "update-dotenv": "^1.1.1",

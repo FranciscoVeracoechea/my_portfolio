@@ -1,0 +1,16 @@
+@import './global';
+
+.responsiveImage {
+    margin: 0 auto;
+    max-height: 100px;
+    padding-bottom: 10px;
+    text-align: center;
+    vertical-align: middle;
+    display: table-cell;
+    max-width: 100%;
+    height: auto;
+}
+
+.figcaption {
+    text-align: center;
+}

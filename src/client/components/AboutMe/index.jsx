@@ -23,7 +23,7 @@ const AboutMe = ({
   return (
     <div>
       <MaterialTable
-        title="About Me"
+        title="Personal Data"
         columns={columns}
         data={data.map(d => Object.assign({}, d))}
         editable={{

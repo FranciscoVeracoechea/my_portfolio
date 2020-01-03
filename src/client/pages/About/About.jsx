@@ -4,8 +4,7 @@ import {
 } from '@material-ui/core';
 // Components
 import Page from '../../components/Wrappers/Page';
-import SocialBar from '../../components/SocialBar';
-import Placeholder from './Placeholder';
+import Placeholder from '../../components/Placeholders/View';
 import SimpleList from '../../components/SimpleList';
 // assets
 import styles from '../../assets/sass/AboutMe.scss';
@@ -18,6 +17,7 @@ const aboutMe = 'about_me';
 const objective = 'objective';
 const contact = 'contact';
 const timeout = 1000;
+const spacing = 4;
 // helpers
 const filterByCategpory = (data, category) => data.data.filter(d => d.category === category);
 const findByCategory = (data, category) => data.data.find(d => d.category === category);
@@ -31,17 +31,18 @@ const About = ({
   fetchData,
   fetchInterest,
 }) => {
+  const title = 'About me';
   const classes = useStyles();
   useEffect(() => {
     if (isFirstRender(data.data)) setTimeout(fetchData, timeout);
     if (isFirstRender(interest.data)) setTimeout(fetchInterest, timeout);
     if (isFirstRender(file.data)) setTimeout(fetchProfilePicture, timeout);
   }, []);
-  if (data.loading || interest.loading || file.loading) return <Placeholder />;
+  if (data.loading || interest.loading || file.loading) return <Placeholder title={title} />;
   return (
-    <Page title="About me">
+    <Page title={title}>
       <Container fixed className={classes.container}>
-        <Grid container spacing={2}>
+        <Grid container spacing={spacing}>
           <Grid item md={3} sm={12} xs={12}>
             <Paper className={classes.paper} component="article">
               <div className={styles.titler}>
@@ -62,7 +63,7 @@ const About = ({
             </Paper>
           </Grid>
           <Grid item md={9} sm={12} xs={12}>
-            <Grid container spacing={2}>
+            <Grid container spacing={spacing}>
               <Grid item md={12} sm={12} xs={12}>
                 <Paper className={classes.paper} component="article">
                   <div className={styles.titler}>
@@ -101,9 +102,6 @@ const About = ({
                     <SimpleList data={filterByCategpory(data, contact)} />
                   </div>
                 </Paper>
-              </Grid>
-              <Grid item md={12} sm={12} xs={12}>
-                <SocialBar />
               </Grid>
             </Grid>
           </Grid>

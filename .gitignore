@@ -32,3 +32,4 @@ compilationStats.json
 .env
 /public
 /dist
+/keys

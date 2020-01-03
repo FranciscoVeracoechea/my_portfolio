@@ -1,5 +1,5 @@
 import {
-  param, body, sanitizeBody,
+  param, body, sanitizeBody, sanitizeQuery,
 } from 'express-validator';
 // utils
 import addValidation from '../../shared/utils/addValidation';
@@ -7,6 +7,9 @@ import addValidation from '../../shared/utils/addValidation';
 
 // validations
 const rules = {
+  index: [
+    sanitizeQuery('populate').toBoolean(),
+  ],
   show: [
     param('id').isMongoId(),
   ],
