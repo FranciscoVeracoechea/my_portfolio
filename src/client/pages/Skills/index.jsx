@@ -1,12 +1,11 @@
 import React, { useRef, useEffect } from 'react';
 import {
-  Container, Grid, Paper, Typography,
+  Container, Grid, Paper,
 } from '@material-ui/core';
 // Components
 import Page from '../../components/Wrappers/Page';
 import Slider from '../../components/Slider';
 import Article from '../../components/SkillArticle';
-import Placeholder from '../../components/Placeholders/View';
 // styles
 import useStyles from './useStyles';
 // utils
