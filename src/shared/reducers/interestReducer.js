@@ -94,7 +94,11 @@ export default (state = initialState, { type, payload }) => {
     case actionTypes.createInterestRejected:
     case actionTypes.updateInterestRejected:
     case actionTypes.deleteInterestRejected:
-      return geterror(initialState)(payload);
+      return {
+        ...state,
+        loading: false,
+        errors: payload?.error || payload?.message || payload?.error?.message,
+      };
 
     default:
       return state;
