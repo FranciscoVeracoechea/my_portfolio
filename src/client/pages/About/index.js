@@ -42,7 +42,6 @@ About.initialAction = () => merge(
     method: 'GET',
   }).pipe(
     map(({ response }) => fetchDataSuccess(response)),
-    tap(console.log),
     catchError(error => of(fetchRejected(error))),
   ),
   request({
@@ -50,22 +49,20 @@ About.initialAction = () => merge(
     method: 'GET',
   }).pipe(
     map(({ response }) => fetchInterestSuccess(response)),
-    tap(console.log),
     catchError(error => of(fetchInterestRejected(error))),
   ),
   request({
-    url: '/api/file',
+    url: '/api/file/kind/profile',
     method: 'GET',
   }).pipe(
-    map(payload => ({
+    map(({ response }) => ({
       type: actionTypes.fetchFilesSuccess,
-      payload,
+      payload: response,
     })),
-    tap(console.log),
     catchError(error => of({
       type: actionTypes.fetchFilesRejected,
       payload: error,
-    }))
+    })),
   )
 );
 
