@@ -1,5 +1,5 @@
 import { actionTypes } from '../actions/interestActions';
-import { getErrors } from '../utils/functional';
+import { geterror } from '../utils/functional';
 import humanize from '../utils/humanize';
 
 
@@ -20,7 +20,7 @@ export default (state = initialState, { type, payload }) => {
 
     case actionTypes.fetchInterestSuccess:
       return {
-        errors: null,
+        error: null,
         loading: false,
         data: payload.data.map(({ createdAt, ...rest }) => ({
           ...rest,
@@ -44,7 +44,7 @@ export default (state = initialState, { type, payload }) => {
     case actionTypes.createInterestSuccess:
       return {
         ...state,
-        errors: null,
+        error: null,
         loading: false,
         data: [
           ...state.data,
@@ -69,7 +69,7 @@ export default (state = initialState, { type, payload }) => {
     case actionTypes.updateInterestSuccess:
       return {
         ...state,
-        errors: null,
+        error: null,
         loading: false,
       };
 
@@ -86,7 +86,7 @@ export default (state = initialState, { type, payload }) => {
     case actionTypes.deleteInterestSuccess:
       return {
         ...state,
-        errors: null,
+        error: null,
         loading: false,
       };
 
@@ -94,7 +94,7 @@ export default (state = initialState, { type, payload }) => {
     case actionTypes.createInterestRejected:
     case actionTypes.updateInterestRejected:
     case actionTypes.deleteInterestRejected:
-      return getErrors(initialState)(payload);
+      return geterror(initialState)(payload);
 
     default:
       return state;

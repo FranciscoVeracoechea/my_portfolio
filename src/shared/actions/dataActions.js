@@ -34,9 +34,9 @@ export const fetchData = (category = null, id = null) => ({
   payload: { category, id },
 });
 
-export const fetchRejected = ({ response }) => ({
+export const fetchRejected = payload => ({
   type: actionTypes.fetchRejected,
-  payload: response,
+  payload,
 });
 
 export const fetchDataSuccess = ({ data }) => ({
