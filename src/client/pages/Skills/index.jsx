@@ -67,13 +67,14 @@ const Skills = ({
           </Hidden>
           <Article skill={skills.data[0]} classes={classes} isFirst isLoading={isLoading} />
           {
-            !isLoading
-              ? skills.data.slice(1).map(skill => (
-                <Article skill={skill} key={skill._id} classes={classes} />
-              ))
-              : arrayRange(3).map(n => (
-                <Article key={n} classes={classes} isLoading={isLoading} />
-              ))
+            isLoading && arrayRange(3).map(n => (
+              <Article key={n} classes={classes} isLoading={isLoading} />
+            ))
+          }
+          {
+            !isLoading && skills.data.slice(1).map(skill => (
+              <Article skill={skill} key={skill._id} classes={classes} />
+            ))
           }
         </Grid>
       </Container>
