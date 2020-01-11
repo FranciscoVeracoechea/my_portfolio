@@ -34,7 +34,7 @@ const SkillArticle = ({
         <Grid container spacing={2} style={{ paddingBottom: '1em', paddingTop: '1em' }}>
           {
             skill.technologies.map(tech => (
-              <Grid key={tech._id} item md={isFirst ? 4 : 2} xs={isFirst ? 4 : 2} sm={isFirst ? 4 : 2}>
+              <Grid key={tech._id} item md={isFirst ? 4 : 2} xs={4} sm={4}>
                 <figure>
                   {
                     tech.link

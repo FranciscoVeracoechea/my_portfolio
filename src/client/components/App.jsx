@@ -7,7 +7,7 @@ import {
   faStar, faBriefcase, faDrum, faBirthdayCake, faCalendarAlt,
   faMale, faGlobeAmericas, faUser, faMapMarkerAlt, faEnvelope,
   faFutbol, faMusic, faCode, faCoffee, faLaptopCode, faFileAlt,
-  faInfoCircle, faFilePdf,
+  faInfoCircle, faFilePdf, faBusinessTime,
 } from '@fortawesome/free-solid-svg-icons';
 // import { far } from '@fortawesome/free-regular-svg-icons';
 import {
@@ -23,7 +23,7 @@ library.add(
   faAddressCard, faPhone, faStar, faBriefcase, faDrum, faBirthdayCake,
   faCalendarAlt, faMale, faGlobeAmericas, faUser, faMapMarkerAlt, faEnvelope,
   faFutbol, faMusic, faLaptopCode, faCode, faCoffee, faFileAlt, faInfoCircle,
-  faFilePdf,
+  faFilePdf, faBusinessTime,
 );
 
 

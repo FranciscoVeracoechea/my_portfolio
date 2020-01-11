@@ -23,7 +23,7 @@ const SkillArticle = ({ classes, isFirst }) => (
       <Grid container spacing={4} style={{ paddingBottom: '1em', paddingTop: '1em' }}>
         {
           arrayRange(isFirst ? 3 : 6).map(n => (
-            <Grid key={n} item md={isFirst ? 4 : 2} xs={isFirst ? 4 : 2} sm={isFirst ? 4 : 2}>
+            <Grid key={n} item md={isFirst ? 4 : 2} xs={4} sm={4}>
               <Skeleton variant="rect" width="100%" height={80} />
               <Skeleton width="90%" />
               <Skeleton width="75%" />

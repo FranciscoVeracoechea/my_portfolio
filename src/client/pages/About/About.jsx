@@ -15,12 +15,13 @@ import { isFirstRender } from '../../../shared/utils/functional';
 
 const aboutMe = 'about_me';
 const objective = 'objective';
+const technicalDescription = 'technical_description';
 const contact = 'contact';
 const timeout = 1000;
 const spacing = 4;
 // helpers
-const filterByCategpory = (data, category) => data.data.filter(d => d.category === category);
-const findByCategory = (data, category) => data.data.find(d => d.category === category);
+const filterData = category => data => data.data.filter(d => d.category === category);
+const findData = category => data => data.data.find(d => d.category === category);
 const findProfilePicture = data => data.data.find(d => d.kind === 'profile');
 
 const About = ({
@@ -57,7 +58,7 @@ const About = ({
                   alt="francisco veracoechea"
                 />
                 <figcaption className={styles.caption}>
-                  <SimpleList data={filterByCategpory(data, aboutMe)} />
+                  <SimpleList data={filterData(aboutMe)(data)} />
                 </figcaption>
               </figure>
             </Paper>
@@ -68,13 +69,28 @@ const About = ({
                 <Paper className={classes.paper} component="article">
                   <div className={styles.titler}>
                     <Typography variant="h5" component="h3" color="primary">
-                      { findByCategory(data, objective)?.key }
+                      { findData(objective)(data)?.key }
                     </Typography>
                   </div>
                   <div>
                     <Typography
                       variant="body2"
-                      dangerouslySetInnerHTML={{ __html: findByCategory(data, objective)?.value }}
+                      dangerouslySetInnerHTML={{ __html: findData(objective)(data)?.value }}
+                    />
+                  </div>
+                </Paper>
+              </Grid>
+              <Grid item md={12} sm={12} xs={12}>
+                <Paper className={classes.paper} component="article">
+                  <div className={styles.titler}>
+                    <Typography variant="h5" component="h3" color="primary">
+                      { findData(technicalDescription)(data)?.key }
+                    </Typography>
+                  </div>
+                  <div>
+                    <Typography
+                      variant="body2"
+                      dangerouslySetInnerHTML={{ __html: findData(technicalDescription)(data)?.value }}
                     />
                   </div>
                 </Paper>
@@ -99,7 +115,7 @@ const About = ({
                     </Typography>
                   </div>
                   <div>
-                    <SimpleList data={filterByCategpory(data, contact)} />
+                    <SimpleList data={filterData(contact)(data)} />
                   </div>
                 </Paper>
               </Grid>

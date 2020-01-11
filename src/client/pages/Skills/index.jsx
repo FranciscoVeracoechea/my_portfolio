@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import {
-  Container, Grid, Paper,
+  Container, Grid, Paper, Hidden,
 } from '@material-ui/core';
 // Components
 import Page from '../../components/Wrappers/Page';
@@ -42,27 +42,29 @@ const Skills = ({
     <Page title={title}>
       <Container fixed className={classes.container}>
         <Grid container spacing={4}>
-          <Grid
-            item
-            md={6}
-            xs={12}
-            sm={12}
-          >
-            <Paper className={classes.paper} ref={sliderWrapper}>
-              <div ref={sliderWrapper} className={classes.sliderWrapper}>
-                {
-                  sliderWrapper.current
-                    ? (
-                      <Slider
-                        wrapper={sliderWrapper.current}
-                        file={file}
-                      />
-                    )
-                    : null
-                }
-              </div>
-            </Paper>
-          </Grid>
+          <Hidden only="xs">
+            <Grid
+              item
+              md={6}
+              xs={12}
+              sm={12}
+            >
+              <Paper className={classes.paper} ref={sliderWrapper}>
+                <div ref={sliderWrapper} className={classes.sliderWrapper}>
+                  {
+                    sliderWrapper.current
+                      ? (
+                        <Slider
+                          wrapper={sliderWrapper.current}
+                          file={file}
+                        />
+                      )
+                      : null
+                  }
+                </div>
+              </Paper>
+            </Grid>
+          </Hidden>
           <Article skill={skills.data[0]} classes={classes} isFirst isLoading={isLoading} />
           {
             !isLoading
