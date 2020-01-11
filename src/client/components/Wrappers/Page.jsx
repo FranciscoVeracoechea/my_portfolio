@@ -6,7 +6,7 @@ import Helmet from 'react-helmet';
 import root from 'window-or-global';
 import type { Location } from 'react-router-dom';
 // asset
-import logo from '../../assets/img/react.svg';
+import logo from '../../assets/img/logo_blue.png';
 
 
 const {

@@ -9,7 +9,7 @@ export default () => {
   const protectedRouter = Router();
   protectedRouter.use(requireAuthentication());
   protectedRouter.post('/', FileValidations.create, FileController.create());
-  protectedRouter.delete('/:id', FileController.destroy());
+  protectedRouter.delete('/:id', FileValidations.destroy, FileController.destroy());
 
   // Unprotected Routes
   const openRouter = Router();
