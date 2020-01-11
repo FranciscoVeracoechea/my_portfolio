@@ -4,7 +4,7 @@ import * as FileController from '../controllers/FileController';
 import FileValidations from '../validations/FileValidations';
 
 
-export default () => {
+export default (app, path) => {
   // Protected Routes
   const protectedRouter = Router();
   protectedRouter.use(requireAuthentication());
@@ -17,5 +17,6 @@ export default () => {
   openRouter.get('/:id', FileValidations.show, FileController.show());
   openRouter.get('/kind/:kind', FileValidations.showByKind, FileController.showByKind());
 
-  return [openRouter, protectedRouter];
+  app.use(path, openRouter);
+  app.use(path, protectedRouter);
 };

@@ -4,7 +4,7 @@ import * as InterestController from '../controllers/InterestController';
 import InterestValidations from '../validations/InterestValidations';
 
 
-export default () => {
+export default (app, path) => {
   // Protected Routes
   const protectedRouter = Router();
   protectedRouter.use(requireAuthentication());
@@ -17,5 +17,6 @@ export default () => {
   openRouter.get('/', InterestController.index());
   openRouter.get('/:id', InterestValidations.show, InterestController.show());
 
-  return [openRouter, protectedRouter];
+  app.use(path, openRouter);
+  app.use(path, protectedRouter);
 };

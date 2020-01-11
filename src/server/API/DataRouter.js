@@ -4,7 +4,7 @@ import * as DataController from '../controllers/DataController';
 import DataValidations from '../validations/DataValidations';
 
 
-export default () => {
+export default (app, path) => {
   // Protected Routes
   const protectedRouter = Router();
   protectedRouter.use(requireAuthentication());
@@ -18,5 +18,6 @@ export default () => {
   openRouter.get('/:id', DataValidations.show, DataController.show());
   openRouter.get('/category/:category', DataValidations.showByCategory, DataController.showByCategory());
 
-  return [protectedRouter, openRouter];
+  app.use(path, openRouter);
+  app.use(path, protectedRouter);
 };

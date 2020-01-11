@@ -5,7 +5,7 @@ import * as UserController from '../controllers/UserCotroller';
 import deletePreviuosSession from '../middlewares/deletePreviuosSession';
 
 
-export default () => {
+export default (app, path) => {
   // Protected Routes
   const protectedRouter = Router();
   protectedRouter.use(requireAuthentication());
@@ -30,5 +30,6 @@ export default () => {
     UserController.login()
   );
 
-  return [openRouter, protectedRouter];
+  app.use(path, openRouter);
+  app.use(path, protectedRouter);
 };

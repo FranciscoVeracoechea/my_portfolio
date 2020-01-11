@@ -49,7 +49,7 @@ Skills.initialAction = () => merge(
     catchError(error => of(fetchRejected(error))),
   ),
   request({
-    url: '/api/file/',
+    url: '/api/file',
     method: 'GET',
   }).pipe(
     map(({ response }) => ({

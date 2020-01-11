@@ -4,7 +4,7 @@ import * as TechnologiesController from '../controllers/TechnologiesController';
 import TechnologyValidations from '../validations/TechnologyValidations';
 
 
-export default () => {
+export default (app, path) => {
   // Protected Routes
   const protectedRouter = Router();
   protectedRouter.use(requireAuthentication());
@@ -36,5 +36,6 @@ export default () => {
   openRouter.get('/', TechnologyValidations.index, TechnologiesController.index());
   openRouter.get('/:id', TechnologyValidations.show, TechnologiesController.show());
 
-  return [protectedRouter, openRouter];
+  app.use(path, openRouter);
+  app.use(path, protectedRouter);
 };
