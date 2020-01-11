@@ -38,6 +38,20 @@ const mapDispatchToProps = {
 
 About.initialAction = () => merge(
   request({
+    url: '/api/file/kind/profile',
+    method: 'GET',
+  }).pipe(
+    map(({ response }) => ({
+      type: actionTypes.fetchFilesSuccess,
+      payload: response,
+    })),
+    tap(console.log),
+    catchError(error => of({
+      type: actionTypes.fetchFilesRejected,
+      payload: error,
+    })),
+  ),
+  request({
     url: '/api/data',
     method: 'GET',
   }).pipe(
@@ -51,20 +65,6 @@ About.initialAction = () => merge(
     map(({ response }) => fetchInterestSuccess(response)),
     catchError(error => of(fetchInterestRejected(error))),
   ),
-  request({
-    url: '/api/file/kind/profile',
-    method: 'GET',
-  }).pipe(
-    map(({ response }) => ({
-      type: actionTypes.fetchFilesSuccess,
-      payload: response,
-    })),
-    tap(console.log),
-    catchError(error => of({
-      type: actionTypes.fetchFilesRejected,
-      payload: error,
-    })),
-  )
 );
 
 export default connect(mapStateToProps, mapDispatchToProps)(About);
