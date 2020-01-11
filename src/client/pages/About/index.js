@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
 import { goBack } from 'connected-react-router';
 import {
-  merge, of, concat,
+  merge, of,
 } from 'rxjs';
 import {
-  map, catchError, tap,
+  map, catchError,
 } from 'rxjs/operators';
 // Component
 import About from './About';
@@ -36,20 +36,7 @@ const mapDispatchToProps = {
   fetchFiles,
 };
 
-About.initialAction = () => concat(
-  request({
-    url: '/api/file',
-    method: 'GET',
-  }).pipe(
-    map(({ response }) => ({
-      type: actionTypes.fetchFilesSuccess,
-      payload: response,
-    })),
-    catchError(error => of({
-      type: actionTypes.fetchFilesRejected,
-      payload: error,
-    })),
-  ),
+About.initialAction = () => merge(
   request({
     url: '/api/data',
     method: 'GET',
@@ -64,6 +51,19 @@ About.initialAction = () => concat(
     map(({ response }) => fetchInterestSuccess(response)),
     catchError(error => of(fetchInterestRejected(error))),
   ),
+  request({
+    url: '/api/file',
+    method: 'GET',
+  }).pipe(
+    map(({ response }) => ({
+      type: actionTypes.fetchFilesSuccess,
+      payload: response || {},
+    })),
+    catchError(error => of({
+      type: actionTypes.fetchFilesRejected,
+      payload: error,
+    }))
+  )
 );
 
 export default connect(mapStateToProps, mapDispatchToProps)(About);
