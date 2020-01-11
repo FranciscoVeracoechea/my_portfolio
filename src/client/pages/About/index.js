@@ -55,9 +55,9 @@ About.initialAction = () => merge(
     url: '/api/file',
     method: 'GET',
   }).pipe(
-    map(({ response }) => ({
+    map(payload => ({
       type: actionTypes.fetchFilesSuccess,
-      payload: response,
+      payload,
     })),
     tap(console.log),
     catchError(error => of({
