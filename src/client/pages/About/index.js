@@ -42,6 +42,7 @@ About.initialAction = () => merge(
     method: 'GET',
   }).pipe(
     map(({ response }) => fetchDataSuccess(response)),
+    tap(console.log),
     catchError(error => of(fetchRejected(error))),
   ),
   request({
@@ -49,6 +50,7 @@ About.initialAction = () => merge(
     method: 'GET',
   }).pipe(
     map(({ response }) => fetchInterestSuccess(response)),
+    tap(console.log),
     catchError(error => of(fetchInterestRejected(error))),
   ),
   request({
