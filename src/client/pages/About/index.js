@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { goBack } from 'connected-react-router';
 import {
-  merge, of,
+  merge, of, concat,
 } from 'rxjs';
 import {
   map, catchError, tap,
@@ -36,16 +36,15 @@ const mapDispatchToProps = {
   fetchFiles,
 };
 
-About.initialAction = () => merge(
+About.initialAction = () => concat(
   request({
-    url: '/api/file/kind/profile',
+    url: '/api/file',
     method: 'GET',
   }).pipe(
     map(({ response }) => ({
       type: actionTypes.fetchFilesSuccess,
       payload: response,
     })),
-    tap(console.log),
     catchError(error => of({
       type: actionTypes.fetchFilesRejected,
       payload: error,
