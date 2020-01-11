@@ -10,6 +10,6 @@ export default (app) => {
   UserRouter(app, '/api/user');
   DataRouter(app, '/api/data');
   FileRouter(app, '/api/file');
-  InterestRouter(app, '/api//api/interest');
+  InterestRouter(app, '/api/interest');
   TechnologyRouter(app, '/api/technology');
 };
