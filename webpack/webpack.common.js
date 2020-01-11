@@ -13,7 +13,7 @@ module.exports = (isDev, type) => ({
       new TerserPlugin({
         cache: true,
         parallel: true,
-        sourceMap: true,
+        sourceMap: !isDev,
       }),
       new OptimizeCSSAssetsPlugin({}),
     ],
