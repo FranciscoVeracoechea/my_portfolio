@@ -59,6 +59,7 @@ About.initialAction = () => merge(
       type: actionTypes.fetchFilesSuccess,
       payload: response,
     })),
+    tap(console.log),
     catchError(error => of({
       type: actionTypes.fetchFilesRejected,
       payload: error,
