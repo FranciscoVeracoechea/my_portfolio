@@ -6,10 +6,10 @@ import FileRouter from './FileRouter';
 import TechnologyRouter from './TechnologyRouter';
 
 // Apply ruotes
-export default (app, uploads) => {
-  app.use('/api/user', UserRouter());
-  app.use('/api/data', DataRouter());
-  app.use('/api/file', FileRouter(uploads));
-  app.use('/api/interest', InterestRouter());
-  app.use('/api/technology', TechnologyRouter());
+export default (app) => {
+  UserRouter().forEach(router => app.use('/api/user', router));
+  DataRouter().forEach(router => app.use('/api/user', router));
+  FileRouter().forEach(router => app.use('/api/user', router));
+  InterestRouter().forEach(router => app.use('/api/user', router));
+  TechnologyRouter().forEach(router => app.use('/api/user', router));
 };

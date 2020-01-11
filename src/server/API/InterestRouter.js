@@ -17,5 +17,5 @@ export default () => {
   openRouter.get('/', InterestController.index());
   openRouter.get('/:id', InterestValidations.show, InterestController.show());
 
-  return [protectedRouter, openRouter];
+  return [openRouter, protectedRouter];
 };
