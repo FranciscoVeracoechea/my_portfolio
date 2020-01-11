@@ -29,7 +29,11 @@ const Slider = ({ wrapper, file }) => {
   const handleOnDragStart = e => e.preventDefault();
 
   useEffect(() => {
-    if (!isFirstRender(file.data)) setData(file.data.filter(d => d.kind === 'picture'));
+    if (file.data.find(d => d.kind === 'slider_image')) {
+      setData(file.data.filter(d => d.kind === 'slider_image'));
+    } else {
+      setData(pages);
+    }
   }, [file.data, file.loading]);
 
   const [props, set] = useSprings(data.length, i => ({

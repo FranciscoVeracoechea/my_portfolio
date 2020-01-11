@@ -15,7 +15,7 @@ import {
 import {
   fetchInterest, fetchInterestSuccess, fetchInterestRejected,
 } from '../../../shared/actions/interestActions';
-import { actionTypes, fetchProfilePicture } from '../../../shared/actions/fileActions';
+import { actionTypes, fetchProfilePicture, fetchFiles } from '../../../shared/actions/fileActions';
 // utils
 import request from '../../../shared/utils/Request';
 
@@ -33,6 +33,7 @@ const mapDispatchToProps = {
   fetchData,
   fetchInterest,
   fetchProfilePicture,
+  fetchFiles,
 };
 
 About.initialAction = () => merge(
@@ -51,7 +52,7 @@ About.initialAction = () => merge(
     catchError(error => of(fetchInterestRejected(error))),
   ),
   request({
-    url: '/api/file/kind/profile',
+    url: '/api/file',
     method: 'GET',
   }).pipe(
     map(({ response }) => ({

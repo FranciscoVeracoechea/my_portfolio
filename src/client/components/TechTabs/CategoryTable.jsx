@@ -1,7 +1,7 @@
 import React from 'react';
 import MaterialTable from 'material-table';
 // helper
-import columns from './columns';
+import { category } from './columns';
 
 
 const CategoryTable = ({
@@ -13,7 +13,7 @@ const CategoryTable = ({
 }) => (
   <MaterialTable
     title="Categories"
-    columns={columns.category}
+    columns={category}
     data={data.map(d => Object.assign({}, d))}
     editable={{
       onRowAdd: newData => create(newData),

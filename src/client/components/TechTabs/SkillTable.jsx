@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import MaterialTable from 'material-table';
 import Maybe, { Just, Nothing } from 'folktale/maybe';
 // helper
-import columns from './columns';
+import { skills } from './columns';
 
 
 const SkillTable = ({
+  files,
   data,
   selectedCategoryId,
   create,
+  destroy,
+  update,
 }) => {
   const [category, setCategory] = useState(Nothing());
   const template = {
@@ -21,8 +24,7 @@ const SkillTable = ({
   );
 
   useEffect(() => {
-    Maybe.of(selectedCategoryId)
-      .chain(id => (id ? Just(id) : Nothing()))
+    (selectedCategoryId ? Just(selectedCategoryId) : Nothing())
       .chain(id => Maybe.fromNullable(getSelectedSkills(data, id)))
       .fold(
         () => setCategory(Nothing()),
@@ -30,15 +32,43 @@ const SkillTable = ({
       );
   }, [data, selectedCategoryId]);
 
+  const deleteCallback = useCallback((oldData) => {
+    const categoryIndex = data.findIndex(e => e._id === selectedCategoryId);
+    const skillIndex = data[categoryIndex].technologies.findIndex(e => e._id === oldData._id);
+    return destroy(
+      selectedCategoryId,
+      categoryIndex,
+      oldData._id,
+      skillIndex
+    );
+  }, [selectedCategoryId, data, destroy]);
+
+  const updateCallback = useCallback((newData, oldData) => {
+    const categoryIndex = data.findIndex(e => e._id === selectedCategoryId);
+    const skillIndex = data[categoryIndex].technologies.findIndex(e => e._id === oldData._id);
+    return update(
+      selectedCategoryId,
+      categoryIndex,
+      oldData._id,
+      skillIndex,
+      {
+        image: newData.image,
+        name: newData.name,
+        level: newData.level,
+        link: newData.link,
+        description: newData.description,
+      },
+    );
+  }, [selectedCategoryId, data, destroy]);
   return (
     <MaterialTable
       title={`Category: ${category.getOrElse(template).name}`}
-      columns={columns.skills}
+      columns={skills(files)}
       data={category.getOrElse(template).technologies.map(d => Object.assign({}, d))}
       editable={{
         onRowAdd: newData => create(selectedCategoryId, newData),
-        // onRowUpdate: (newData, oldData) => updateInterest(newData, data.findIndex(e => e._id === oldData._id)),
-        // onRowDelete: oldData => deleteInterest(oldData._id, data.findIndex(e => e._id === oldData._id)),
+        onRowUpdate: updateCallback,
+        onRowDelete: deleteCallback,
       }}
     />
   );

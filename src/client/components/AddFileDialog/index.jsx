@@ -6,7 +6,7 @@ import {
 
 
 const AddFileDialog = ({ open, onClose, onSubmit }) => {
-  const kindOfFile = ['picture', 'curriculum_vitae', 'profile'];
+  const kindOfFile = ['slider_image', 'curriculum_vitae', 'profile', 'skill_image', 'background_image'];
   const [value, setValue] = useState(kindOfFile[0]);
   const [fileName, setFileName] = useState('');
   const handleOnChange = e => setValue(e.target.value);

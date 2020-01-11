@@ -12,23 +12,32 @@ import Skills from './index.jsx';
 import {
   fetchFiles, fetchCanceled, actionTypes,
 } from '../../../shared/actions/fileActions';
-// actions
 import {
   fetchDataSuccess, fetchRejected, fetchData,
 } from '../../../shared/actions/dataActions';
+import {
+  actionTypes as skillActionTypes, fetchTechnologiesRejected,
+  fetchTechnologies, fetchTechnologiesCanceled,
+} from '../../../shared/actions/skillsActions';
 // utils
 import request from '../../../shared/utils/Request';
 
 
 const mapStateToProps = ({
-  file, data,
+  file, data, skills,
 }) => ({
   file,
   data,
+  skills: {
+    ...skills,
+    data: skills.data
+      .map(d => Object.assign({}, d))
+      .sort((a, b) => (a.order > b.order ? 1 : -1)),
+  },
 });
 
 const mapDispatchToProps = {
-  goBack, fetchFiles, fetchCanceled, fetchData,
+  goBack, fetchFiles, fetchCanceled, fetchData, fetchTechnologies, fetchTechnologiesCanceled,
 };
 
 Skills.initialAction = () => merge(
@@ -51,6 +60,16 @@ Skills.initialAction = () => merge(
       type: actionTypes.fetchFilesRejected,
       payload: error,
     }))
+  ),
+  request({
+    url: '/api/technology?populate=true',
+    method: 'GET',
+  }).pipe(
+    map(({ response }) => ({
+      type: skillActionTypes.fetchTechnologiesSuccess,
+      payload: { ...response, populate: true },
+    })),
+    catchError(error => of(fetchTechnologiesRejected(error)))
   )
 );
 

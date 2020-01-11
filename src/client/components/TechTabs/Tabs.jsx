@@ -6,6 +6,9 @@ import {
 // component
 import CategoryTable from './CategoryTable';
 import SkillTable from './SkillTable';
+// utils
+import { isFirstRender } from '../../../shared/utils/functional';
+import Sequence from '../../../shared/Identities/Sequence';
 
 
 const TabPanel = (props) => {
@@ -47,12 +50,17 @@ const useStyles = makeStyles(theme => ({
 
 const TabView = ({
   data,
+  file,
+  fetchFilesCancel,
+  fetchFiles,
   createCategory,
   deleteCategory,
   updateCategory,
   selecteCategory,
   selectedCategoryId,
   createSkill,
+  deleteSkill,
+  updateSkill,
 }) => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
@@ -60,6 +68,16 @@ const TabView = ({
   const handleChange = (_, newValue) => {
     setValue(newValue);
   };
+
+  React.useEffect(/** ifElse */
+    () => {
+      Sequence.ifElse(isFirstRender(file.data))
+        .map(fetchFiles);
+
+      return fetchFilesCancel;
+    },
+    []
+  );
 
   return (
     <div className={classes.root}>
@@ -70,23 +88,38 @@ const TabView = ({
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <CategoryTable
-          create={createCategory}
-          remove={deleteCategory}
-          update={updateCategory}
-          onChangeTab={(index, id) => {
-            selecteCategory(id);
-            handleChange(null, index);
-          }}
-          data={data}
-        />
+        {
+          value === 0
+            ? (
+              <CategoryTable
+                create={createCategory}
+                remove={deleteCategory}
+                update={updateCategory}
+                onChangeTab={(index, id) => {
+                  selecteCategory(id);
+                  handleChange(null, index);
+                }}
+                data={data}
+              />
+            )
+            : <div />
+        }
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <SkillTable
-          data={data}
-          selectedCategoryId={selectedCategoryId}
-          create={createSkill}
-        />
+        {
+          value === 1
+            ? (
+              <SkillTable
+                data={data}
+                files={file.data.filter(f => (f.kind === 'skill_image'))}
+                selectedCategoryId={selectedCategoryId}
+                create={createSkill}
+                destroy={deleteSkill}
+                update={updateSkill}
+              />
+            )
+            : <div />
+        }
       </TabPanel>
     </div>
   );

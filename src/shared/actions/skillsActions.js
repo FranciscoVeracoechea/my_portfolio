@@ -23,11 +23,21 @@ export const actionTypes = {
   updateCategoryPending: 'UPDATE_CATEGORY/PENDING',
   updateCategoryFulFilled: 'UPDATE_CATEGORY/FULFILLED',
   updateCategoryRejected: 'UPDATE_CATEGORY/REJECTED',
+  //  ----------
+  updateSkill: 'UPDATE_SKILL',
+  updateSkillPending: 'UPDATE_SKILL/PENDING',
+  updateSkillFulFilled: 'UPDATE_SKILL/FULFILLED',
+  updateSkillRejected: 'UPDATE_SKILL/REJECTED',
   // DELETE
   deleteCategory: 'DELETE_CATEGORY',
   deleteCategoriPending: 'DELETE_CATEGORY/PENDING',
   deleteCategorySuccess: 'DELETE_CATEGORY/FULFILLED',
   deleteCategoryRejected: 'DELETE_CATEGORY/REJECTED',
+  //  ----------------
+  deleteSkill: 'DELETE_SKILL',
+  deleteSkillPending: 'DELETE_SKILL/PENDING',
+  deleteSkillSuccess: 'DELETE_SKILL/FULFILLED',
+  deleteSkillRejected: 'DELETE_SKILL/REJECTED',
   // set selected category
   setSelectedCategory: 'SET_SELECTED_CATEGORY_ID',
 };
@@ -50,8 +60,9 @@ export const createSkill = (categoryId, body) => ({
   }).pipe(map(({ response }) => response)).toPromise(),
 });
 // read
-export const fetchTechnologies = () => ({
+export const fetchTechnologies = (populate = false) => ({
   type: actionTypes.fetchTechnologies,
+  payload: { populate },
 });
 
 export const fetchTechnologiesCanceled = () => ({
@@ -81,6 +92,20 @@ export const updateCategory = (index, { _id, technologies: _, ...data }) => ({
   },
 });
 
+export const updateSkill = (categoryId, categoryIndex, skillId, skillIndex, newData) => ({
+  type: actionTypes.updateSkill,
+  payload: {
+    promise: request({
+      url: `/api/technology/category/${categoryId}/tech/${skillId}`,
+      method: 'PUT',
+      body: newData,
+    }).pipe(map(({ response }) => response)).toPromise(),
+    data: {
+      categoryId, categoryIndex, skillId, skillIndex, newData,
+    },
+  },
+});
+
 export const selecteCategory = id => ({
   type: actionTypes.setSelectedCategory,
   payload: { id },
@@ -97,6 +122,19 @@ export const deleteCategory = (id, index) => ({
     data: {
       index,
       id,
+    },
+  },
+});
+
+export const deleteSkill = (categoryId, categoryIndex, skillId, skillIndex) => ({
+  type: actionTypes.deleteSkill,
+  payload: {
+    promise: request({
+      url: `/api/technology/category/${categoryId}/tech/${skillId}`,
+      method: 'DELETE',
+    }).pipe(map(({ response }) => response)).toPromise(),
+    data: {
+      categoryId, categoryIndex, skillId, skillIndex,
     },
   },
 });

@@ -5,12 +5,18 @@ import Technology from '../models/Technology';
 import { catchDatabaseExcception, DatabaseExcception } from '../../shared/Identities/Excception';
 
 // response methods
-export const index = () => (req, res, next) => Technology.find({})
-  .then(data => res.status(200).json({
+export const index = () => (req, res, next) => (
+  req.query.populate
+    ? Technology.find()
+      .populate('technologies.image')
+    : Technology.find()
+).exec((err, data) => {
+  if (err) return next(DatabaseExcception(err));
+  return res.status(200).json({
     message: 'Sucessfull Request',
     data,
-  }))
-  .catch(catchDatabaseExcception(next));
+  });
+});
 
 export const show = () => (req, res, next) => Technology.findById(req.params.id)
   .then(data => res.status(200).json({
@@ -41,21 +47,29 @@ export const addTechnology = () => (req, res, next) => Technology.findById(req.p
 export const deleteTechnology = () => (req, res, next) => Technology.findById(req.params.categoryId)
   .then((category) => {
     category.technologies.id(req.params.technologyId).remove();
-    res.status(200).json({
-      message: 'Sucessfull Request, technology removed',
-    });
+    return category.save();
   })
+  .then(category => res.status(200).json({
+    message: 'Sucessfull Request, technology removed',
+    category,
+  }))
   .catch(catchDatabaseExcception(next));
 
 export const updateTechnology = () => (
   req, res, next,
 ) => Technology.findById(req.params.categoryId)
   .then((category) => {
-    console.log(category.technologies.id(req.params.technologyId).update);
-    res.status(200).json({
-      message: 'Sucessfull Request, technology removed',
-    });
+    const skill = category.technologies.id(req.params.technologyId);
+    skill.name = req.body.name;
+    skill.link = req.body.link;
+    skill.image = req.body.image;
+    skill.level = req.body.level;
+    return category.save();
   })
+  .then(category => res.status(200).json({
+    message: 'Sucessfull Request, technology removed',
+    category,
+  }))
   .catch(catchDatabaseExcception(next));
 
 export const update = () => (req, res, next) => Technology.findByIdAndUpdate(

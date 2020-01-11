@@ -7,12 +7,10 @@ import Sequence from '../../shared/Identities/Sequence';
 
 
 const { SECRET } = process.env;
-const errorMsg = 'Unauthenticated';
-const getError = () => AuthenticationException(new Error(errorMsg), errorMsg);
 
 const { Success, PassportJWT, Unauthenticated } = union('AuthValidation', {
   Success() { return {}; },
-  Unauthenticated() { return {}; },
+  Unauthenticated() { return { message: 'Unauthenticated' }; },
   PassportJWT(passportMiddleware) {
     return { passportMiddleware };
   },
@@ -49,6 +47,6 @@ export default () => (request, response, next) => validateSelfRequest(request)
     result => result.matchWith({
       Success: () => next(),
       PassportJWT: ({ passportMiddleware }) => passportMiddleware(request, response, next),
-      Unauthenticated: () => next(getError()),
+      Unauthenticated: ({ message }) => next(AuthenticationException(new Error(message), message)),
     })
   );

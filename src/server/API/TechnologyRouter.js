@@ -33,7 +33,7 @@ export default () => {
 
   // Unprotected Routes
   const openRouter = Router();
-  openRouter.get('/', TechnologiesController.index());
+  openRouter.get('/', TechnologyValidations.index, TechnologiesController.index());
   openRouter.get('/:id', TechnologyValidations.show, TechnologiesController.show());
 
   return [protectedRouter, openRouter];

@@ -16,11 +16,14 @@ import deviceDetection from './middlewares/deviceDetection';
 import helmet from './middlewares/helpmet';
 import fileStorage from './middlewares/fileStorage';
 import errorHandler from './middlewares/errorHandler';
+// util
+import { populateProcessEnv } from '../shared/utils/readKeys';
 // API router
 import ApiRouter from './API';
 
 // Environment Constants
 dotenv.config();
+populateProcessEnv();
 const isAnalyzer = process.env.ANALYZER === 'true';
 const isDev = process.env.NODE_ENV === 'development';
 // MongoDB connection
@@ -39,7 +42,7 @@ app.use(cors());
 helmet(app);
 app.use(cookieSession({
   name: 'FV_portfolio',
-  keys: [process.env.SECRET],
+  keys: [process.env.SECRET, process.env.AUTH_TOKEN],
   maxAge: moment().add(Number(process.env.TOKEN_LIFE), 'days'),
   signed: true,
 }));

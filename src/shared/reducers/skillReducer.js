@@ -5,6 +5,7 @@ import { switchCase } from '../utils/functional';
 
 const initialState = {
   isLoading: false,
+  isPopulated: false,
   error: null,
   data: [],
   selectedCategoryId: '',
@@ -21,13 +22,18 @@ export default (state = initialState, { type, payload }) => switchCase({
   [actionTypes.fetchTechnologies]: () => ({
     ...initialState,
     isLoading: true,
+    isPopulated: payload.populate,
   }),
   [actionTypes.fetchTechnologiesSuccess]: () => ({
     ...state,
     isLoading: false,
     data: payload.data,
+    isPopulated: Boolean(payload.populate),
   }),
-  [actionTypes.fetchTechnologiesCanceled]: initialState,
+  [actionTypes.fetchTechnologiesCanceled]: () => ({
+    ...state,
+    isLoading: false,
+  }),
   [actionTypes.fetchTechnologiesRejected]: setError(state, payload),
   [actionTypes.createCategorySuccess]: () => ({
     ...state,
@@ -41,6 +47,35 @@ export default (state = initialState, { type, payload }) => switchCase({
     data: [
       ...state.data.slice(0, payload.index),
       ...state.data.slice(payload.index + 1),
+    ],
+  }),
+  [actionTypes.deleteSkillPending]: () => ({
+    ...state,
+    data: [
+      ...state.data.slice(0, payload.categoryIndex),
+      {
+        ...state.data[payload.categoryIndex],
+        technologies: [
+          ...state.data[payload.categoryIndex].technologies.slice(0, payload.skillIndex),
+          ...state.data[payload.categoryIndex].technologies.slice(payload.skillIndex + 1),
+        ],
+      },
+      ...state.data.slice(payload.categoryIndex + 1),
+    ],
+  }),
+  [actionTypes.updateSkillPending]: () => ({
+    ...state,
+    data: [
+      ...state.data.slice(0, payload.categoryIndex),
+      {
+        ...state.data[payload.categoryIndex],
+        technologies: [
+          ...state.data[payload.categoryIndex].technologies.slice(0, payload.skillIndex),
+          payload.newData,
+          ...state.data[payload.categoryIndex].technologies.slice(payload.skillIndex + 1),
+        ],
+      },
+      ...state.data.slice(payload.categoryIndex + 1),
     ],
   }),
   [actionTypes.updateCategoryPending]: () => ({

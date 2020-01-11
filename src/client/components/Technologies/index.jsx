@@ -10,8 +10,6 @@ import Loader from '../Loader';
 import styles from '../../assets/sass/Files.scss';
 // hooks
 import { useUnionType } from '../../hooks/useUnionType';
-// utils
-import Sequence from '../../../shared/Identities/Sequence';
 
 
 const Table = ({ data, styles: classes }) => (
@@ -40,9 +38,10 @@ const Technologies = ({
   const [state] = useUnionType(skills);
 
   useEffect(
-    () => Sequence.fromNullable(!skills.isLoading)
-      .map(fetchTechnologies)
-      .chain(() => fetchTechnologiesCanceled),
+    () => {
+      fetchTechnologies();
+      return () => fetchTechnologiesCanceled();
+    },
     []
   );
 
