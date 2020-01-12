@@ -1,14 +1,16 @@
 import { makeStyles } from '@material-ui/core';
 
 
+const paddingTop = '6em';
+
 export default makeStyles(theme => ({
   container: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
-    paddingTop: '6em',
-    height: '100%',
+    paddingTop,
+    minHeight: `calc(100vh - ${paddingTop})`,
   },
   code: {
     fontSize: '5rem',
@@ -23,4 +25,3 @@ export default makeStyles(theme => ({
     },
   },
 }));
-; 5

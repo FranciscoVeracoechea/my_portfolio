@@ -27,7 +27,7 @@ export default ({
     <link rel="icon" href="/static/favicon.ico?hash=${hash}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <link rel="stylesheet" type="text/css" href="/styles.${hash}.css"/>
-    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" />
   </head>
   <body ${helmet.bodyAttributes.toString()}>
     <div id="root">${markup}</div>
