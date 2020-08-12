@@ -134,7 +134,7 @@
     "rxjs": "^6.5.2",
     "rxjs-hooks": "^0.5.1",
     "serialize-error": "^5.0.0",
-    "serialize-javascript": "^2.1.0",
+    "serialize-javascript": "^4.0.0",
     "serve-favicon": "^2.5.0",
     "update-dotenv": "^1.1.1",
     "window-or-global": "^1.0.1",
